@@ -1,0 +1,26 @@
+{
+  "name": "chartisan",
+  "version": "0.1.0",
+  "scripts": {
+    "start": "webpack-dev-server --hot --inline"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.3.6",
+    "babel-core": "^6.9.1",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0",
+    "css-loader": "^0.23.1",
+    "d3": "^4.0.0-alpha.45",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.8.5",
+    "postcss-import": "^8.1.2",
+    "postcss-loader": "^0.9.1",
+    "precss": "^1.4.0",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0",
+    "style-loader": "^0.13.1",
+    "tachyons": "^4.0.0-beta.30",
+    "webpack": "^1.13.1"
+  }
+}

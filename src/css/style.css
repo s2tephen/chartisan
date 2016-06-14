@@ -1,0 +1,105 @@
+@import 'tachyons/css/tachyons.css';
+
+:root {
+  --black-90: rgba(0,0,0,.9);
+  --black-80: rgba(0,0,0,.8);
+  --black-70: rgba(0,0,0,.7);
+  --black-60: rgba(0,0,0,.6);
+  --black-50: rgba(0,0,0,.5);
+  --black-40: rgba(0,0,0,.4);
+  --black-30: rgba(0,0,0,.3);
+  --black-20: rgba(0,0,0,.2);
+  --black-10: rgba(0,0,0,.1);
+  --black-05: rgba(0,0,0,.05);
+
+  --white-90: rgba(255,255,255,.9);
+  --white-80: rgba(255,255,255,.8);
+  --white-70: rgba(255,255,255,.7);
+  --white-60: rgba(255,255,255,.6);
+  --white-50: rgba(255,255,255,.5);
+  --white-40: rgba(255,255,255,.4);
+  --white-30: rgba(255,255,255,.3);
+  --white-20: rgba(255,255,255,.2);
+  --white-10: rgba(255,255,255,.1);
+
+  --transparent: transparent;
+
+  --black: #000;
+  --near-black: #111;
+  --dark-gray:#333;
+  --mid-gray:#555;
+  --gray: #777;
+  --silver: #999;
+  --light-silver: #aaa;
+  --moon-gray: #ccc;
+  --light-gray: #eee;
+  --near-white: #f4f4f4;
+  --white: #fff;
+}
+
+.sans-serif {
+  font-family: karla,-apple-system,BlinkMacSystemFont,
+               avenir next,avenir,helvetica,helvetica neue,
+               ubuntu,roboto,noto,segoe ui,arial,sans-serif;
+}
+
+.monospace {
+  font-family: source code pro,monospace;
+}
+
+.no-resize {
+  resize: none;
+}
+
+.b-focus--black-50 {
+  transition: border-color .15s ease-in;
+}
+
+.b-focus--black-50:focus {
+  border-color: var(--black-50);
+  outline: none;
+}
+
+.fill--black-70 {
+  fill: var(--black-70);
+}
+
+.fill--black-50 {
+  fill: var(--black-50);
+}
+
+.fill--black-30 {
+  fill: var(--black-30);
+}
+
+.fill--black-30 {
+  fill: var(--black-30);
+}
+
+.stroke--black-30 {
+  stroke: var(--black-30);
+}
+
+.axis > .domain {
+  stroke: var(--transparent);
+}
+
+.axis > .tick > line {
+  stroke: var(--black-10);
+}
+
+.axis > .tick > text {
+  fill: var(--black-30);
+}
+
+.y.axis > .tick:first-of-type > line {
+  stroke: var(--black-50);
+}
+
+.bar {
+  fill: rgb(200,146,181);
+}
+
+.blue {
+  color: rgb(0,116,217);
+}
