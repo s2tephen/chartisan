@@ -6,8 +6,9 @@ import './css/style.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Form from './js/form.js';
-import Chart from './js/chart.js';
+import Form from './js/Form.js';
+import BarChart from './js/BarChart.js';
+import LineChart from './js/LineChart.js';
 
 class App extends React.Component {
   constructor(props) {
@@ -83,8 +84,8 @@ class App extends React.Component {
 
   render() {
     let marginTop = 40;
-    if (this.state.title !== '' || this.state.subtitle !== '') marginTop += 25;
-    if (this.state.title !== '' && this.state.subtitle !== '') marginTop += 25;
+    if (this.state.title || this.state.subtitle) marginTop += 25;
+    if (this.state.title && this.state.subtitle) marginTop += 25;
 
     return (
       <div>
@@ -104,20 +105,20 @@ class App extends React.Component {
                 handlePropChange={this.handlePropChange.bind(this)} />
         </div>
         <div className="w-100 w-50-ns fr">
-          <Chart width={640}
-                 height={480}
-                 margin={
-                  {'top': marginTop,
-                   'right': 20,
-                   'bottom': (this.state.credit !== '' || this.state.source !== '') ? 80 : 40,
-                   'left': 40}
-                 }
-                 cols={this.state.cols}
-                 data={this.state.data}
-                 title={this.state.title}
-                 subtitle={this.state.subtitle}
-                 credit={this.state.credit}
-                 source={this.state.source} />
+          <LineChart width={640}
+                     height={480}
+                     margin={{
+                       'top': marginTop,
+                       'right': 20,
+                       'bottom': (this.state.credit || this.state.source) ? 80 : 40,
+                       'left': 40
+                     }}
+                     cols={this.state.cols}
+                     data={this.state.data}
+                     title={this.state.title}
+                     subtitle={this.state.subtitle}
+                     credit={this.state.credit}
+                     source={this.state.source} />
         </div>
       </div>
     );

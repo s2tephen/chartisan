@@ -8,7 +8,7 @@ class Axis extends React.Component {
   constructor(props) {
     super(props);
   }
-
+  
   render() {
     return (
       <g className={`${this.props.className} axis`}
