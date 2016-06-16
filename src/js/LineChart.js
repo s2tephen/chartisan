@@ -24,13 +24,16 @@ class LineChart extends Chart {
            transform={`translate(${this.props.margin.left}, ${this.props.margin.top})`}>
           <XAxis className="x"
                  innerHeight={this.innerHeight}
-                 transform={`translate(0, ${this.innerHeight})`}
+                 margin={this.props.margin.right}
+                 transform={`translate(0, ${this.innerHeight + this.props.margin.right})`}
                  scale={this.xScale} />
           <YAxis className="y"
                  innerWidth={this.innerWidth}
+                 margin={this.props.margin.right}
                  scale={this.yScale} />
           <Line cols={this.props.cols}
                 data={this.props.data}
+                colType={this.props.colType}
                 xScale={this.xScale}
                 yScale={this.yScale} />
         </g>

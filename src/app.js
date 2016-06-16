@@ -25,6 +25,8 @@ class App extends React.Component {
         {'episode': 'VI', 'score': 8.4},
         {'episode': 'VII', 'score': 8.2}
       ],
+      colType: 'ordinal',
+      chart: 'bar',
       title: 'The Force is strong with this series',
       subtitle: 'Average IMDb user ratings of all Star Wars episodes',
       credit: 'stephensuen.com/chartisan',
@@ -36,11 +38,11 @@ class App extends React.Component {
     let rows = e.target.value.split('\n');
     let delimiter = this.getDelimiter(rows);
     let cols = rows.shift().split(delimiter);
+    let colType = this.getColType(rows);
 
-    if (this.validateData(rows, cols)) {    
+    if (this.validateData(rows, cols, delimiter)) {    
       this.setState({
         cols: cols,
-        delimiter: delimiter,
         data: rows.map(function(r) {
           let vals = r.split(delimiter);
           let row = {};
@@ -58,19 +60,30 @@ class App extends React.Component {
     this.setState(nextState);
   }
 
+  getColType(rows) {
+    if (rows.every(r => !isNaN(parseFloat(r.split(',')[0])))) {
+      this.setState({colType: 'number'});
+      return 'number';
+    } else {
+      this.setState({colType: 'ordinal'});
+      return 'ordinal';
+    }
+  }
+
   getDelimiter(rows) {
     if (rows.every(r => r.split(',').length > 1)) {
+      this.setState({delimiter: ','});
       return ',';
     } else if (rows.every(r => r.split('\t').length > 1)) {
+      this.setState({delimiter: '\t'});
       return '\t';
     } else {
       throw new Error('Data does not contain a valid delimiter.');
     }
   }
 
-  validateData(rows, cols) {
-    let delimiter = this.state.delimiter,
-          numCols = cols.length;
+  validateData(rows, cols, delimiter) {
+    let numCols = cols.length;
     if (rows.some(r => r.split(delimiter).length !== numCols)) {
       throw new Error('Data contains an inconsistent number of columns.');
     } else if (rows.map(r => r.split(delimiter).slice(1))
@@ -83,9 +96,13 @@ class App extends React.Component {
   }
 
   render() {
-    let marginTop = 40;
+    let marginTop = 50;
     if (this.state.title || this.state.subtitle) marginTop += 25;
     if (this.state.title && this.state.subtitle) marginTop += 25;
+
+    let marginBottom = 40;
+    if (this.state.chart !== 'bar') marginBottom += 20;
+    if (this.state.credit || this.state.source) marginBottom += 40;
 
     return (
       <div>
@@ -97,7 +114,8 @@ class App extends React.Component {
             React</a>, <a className="dim link blue" href="//d3js.org/">D3</a>, and <a className="dim link blue"
             href="//tachyons.io/">Tachyons</a>. Plug in some data below to get started!
           </p>
-          <Form title={this.state.title}
+          <Form chart={this.state.chart}
+                title={this.state.title}
                 subtitle={this.state.subtitle}
                 credit={this.state.credit}
                 source={this.state.source}
@@ -105,20 +123,30 @@ class App extends React.Component {
                 handlePropChange={this.handlePropChange.bind(this)} />
         </div>
         <div className="w-100 w-50-ns fr">
-          <LineChart width={640}
-                     height={480}
-                     margin={{
-                       'top': marginTop,
-                       'right': 20,
-                       'bottom': (this.state.credit || this.state.source) ? 80 : 40,
-                       'left': 40
-                     }}
-                     cols={this.state.cols}
-                     data={this.state.data}
-                     title={this.state.title}
-                     subtitle={this.state.subtitle}
-                     credit={this.state.credit}
-                     source={this.state.source} />
+          {this.state.chart === 'bar' &&
+            <BarChart width={640}
+                      height={480}
+                      margin={{'top': marginTop, 'right': 20, 'bottom': marginBottom, 'left': 40}}
+                      cols={this.state.cols}
+                      data={this.state.data}
+                      colType={this.state.colType}
+                      title={this.state.title}
+                      subtitle={this.state.subtitle}
+                      credit={this.state.credit}
+                      source={this.state.source} />
+          }
+          {this.state.chart === 'line' &&
+            <LineChart width={640}
+                       height={480}
+                       margin={{'top': marginTop, 'right': 20, 'bottom': marginBottom, 'left': 40}}
+                       cols={this.state.cols}
+                       data={this.state.data}
+                       colType={this.state.colType}
+                       title={this.state.title}
+                       subtitle={this.state.subtitle}
+                       credit={this.state.credit}
+                       source={this.state.source} />
+          }
         </div>
       </div>
     );

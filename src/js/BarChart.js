@@ -24,6 +24,7 @@ class BarChart extends Chart {
            transform={`translate(${this.props.margin.left}, ${this.props.margin.top})`}>
           <XAxis className="x"
                  innerHeight={this.innerHeight}
+                 margin={this.props.margin.right / 2}
                  transform={`translate(0, ${this.innerHeight})`}
                  scale={this.xScale} />
           <YAxis className="y"
