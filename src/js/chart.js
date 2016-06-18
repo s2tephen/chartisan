@@ -7,30 +7,32 @@ class Chart extends React.Component {
   constructor(props) {
     super(props);
 
-    this.innerWidth  = props.width - props.margin.left - props.margin.right;
     this.innerHeight = props.height - props.margin.top - props.margin.bottom;
-
-    this.setXScale(props);
     this.setYScale(props);
+
+    this.maxDigits = Math.max(-0.5, this.yScale.domain()[1].toString().length - 2);
+    this.innerWidth = props.width - props.margin.left - props.margin.right;
+    this.setXScale(props);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.innerWidth  = nextProps.width - nextProps.margin.left - nextProps.margin.right;
     this.innerHeight = nextProps.height - nextProps.margin.top - nextProps.margin.bottom;
-
-    this.setXScale(nextProps);
     this.setYScale(nextProps);
+
+    this.maxDigits = Math.max(-0.5, this.yScale.domain()[1].toString().length - 2);
+    this.innerWidth = nextProps.width - nextProps.margin.left - nextProps.margin.right;
+    this.setXScale(nextProps);
   }
 
   setXScale(props) {
-    if (props.colType === 'number') {
+    if (props.colType === 'numeric') {
       this.xScale = d3.scaleLinear()
                       .rangeRound([props.margin.right, this.innerWidth - props.margin.right])
                       .domain(d3.extent(props.data, d => d[props.cols[0]]))
                       .nice();
     } else {
       this.xScale = d3.scaleBand()
-                      .rangeRound([0, this.innerWidth])
+                      .rangeRound([this.maxDigits * 10, this.innerWidth])
                       .padding(0.1)
                       .domain(props.data.map(d => d[props.cols[0]]));
     }

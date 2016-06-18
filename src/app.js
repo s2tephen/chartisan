@@ -9,24 +9,34 @@ import ReactDOM from 'react-dom';
 import Form from './js/Form.js';
 import BarChart from './js/BarChart.js';
 import LineChart from './js/LineChart.js';
+import ScatterChart from './js/ScatterChart.js';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cols: ['episode', 'score'],
+      cols: ['state', 'enrollment'],
       delimiter: ',',
       data: [
-        {'episode': 'I', 'score': 7.6},
-        {'episode': 'II', 'score': 6.7},
-        {'episode': 'III', 'score': 7.6},
-        {'episode': 'IV', 'score': 8.7},
-        {'episode': 'V', 'score': 8.8},
-        {'episode': 'VI', 'score': 8.4},
-        {'episode': 'VII', 'score': 8.2}
+        {state: 'CA', enrollment: 694},
+        {state: 'NY', enrollment: 384},
+        {state: 'MA', enrollment: 336},
+        {state: 'TX', enrollment: 267},
+        {state: 'FL', enrollment: 232},
+        {state: 'NJ', enrollment: 191},
+        {state: 'IL', enrollment: 148},
+        {state: 'MD', enrollment: 142},
+        {state: 'PA', enrollment: 127},
+        {state: 'VA', enrollment: 126},
+        {state: 'MI', enrollment: 104},
+        {state: 'GA', enrollment: 86},
+        {state: 'CT', enrollment: 85},
+        {state: 'WA', enrollment: 76},
+        {state: 'OH', enrollment: 73},
+        {state: 'NC', enrollment: 70}
       ],
       colType: 'ordinal',
-      chart: 'bar',
+      chartType: 'bar',
       title: 'The Force is strong with this series',
       subtitle: 'Average IMDb user ratings of all Star Wars episodes',
       credit: 'stephensuen.com/chartisan',
@@ -62,8 +72,8 @@ class App extends React.Component {
 
   getColType(rows) {
     if (rows.every(r => !isNaN(parseFloat(r.split(',')[0])))) {
-      this.setState({colType: 'number'});
-      return 'number';
+      this.setState({colType: 'numeric'});
+      return 'numeric';
     } else {
       this.setState({colType: 'ordinal'});
       return 'ordinal';
@@ -101,7 +111,7 @@ class App extends React.Component {
     if (this.state.title && this.state.subtitle) marginTop += 25;
 
     let marginBottom = 40;
-    if (this.state.chart !== 'bar') marginBottom += 20;
+    if (this.state.chartType !== 'bar') marginBottom += 20;
     if (this.state.credit || this.state.source) marginBottom += 40;
 
     return (
@@ -114,7 +124,8 @@ class App extends React.Component {
             React</a>, <a className="dim link blue" href="//d3js.org/">D3</a>, and <a className="dim link blue"
             href="//tachyons.io/">Tachyons</a>. Plug in some data below to get started!
           </p>
-          <Form chart={this.state.chart}
+          <Form chartType={this.state.chartType}
+                colType={this.state.colType}
                 title={this.state.title}
                 subtitle={this.state.subtitle}
                 credit={this.state.credit}
@@ -123,7 +134,7 @@ class App extends React.Component {
                 handlePropChange={this.handlePropChange.bind(this)} />
         </div>
         <div className="w-100 w-50-ns fr">
-          {this.state.chart === 'bar' &&
+          {this.state.chartType === 'bar' &&
             <BarChart width={640}
                       height={480}
                       margin={{'top': marginTop, 'right': 20, 'bottom': marginBottom, 'left': 40}}
@@ -135,7 +146,7 @@ class App extends React.Component {
                       credit={this.state.credit}
                       source={this.state.source} />
           }
-          {this.state.chart === 'line' &&
+          {this.state.chartType === 'line' &&
             <LineChart width={640}
                        height={480}
                        margin={{'top': marginTop, 'right': 20, 'bottom': marginBottom, 'left': 40}}
@@ -146,6 +157,18 @@ class App extends React.Component {
                        subtitle={this.state.subtitle}
                        credit={this.state.credit}
                        source={this.state.source} />
+          }
+          {this.state.chartType === 'scatter' &&
+            <ScatterChart width={640}
+                          height={480}
+                          margin={{'top': marginTop, 'right': 20, 'bottom': marginBottom, 'left': 40}}
+                          cols={this.state.cols}
+                          data={this.state.data}
+                          colType={this.state.colType}
+                          title={this.state.title}
+                          subtitle={this.state.subtitle}
+                          credit={this.state.credit}
+                          source={this.state.source} />
           }
         </div>
       </div>

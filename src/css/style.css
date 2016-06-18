@@ -1,4 +1,6 @@
 @import 'tachyons/css/tachyons.css';
+@import 'tachyons-opacity/css/tachyons-opacity.css';
+@import 'tachyons-z-index/css/tachyons-z-index.css';
 
 :root {
   --black-90: rgba(0,0,0,.9);
@@ -47,8 +49,24 @@
   font-family: source code pro,monospace;
 }
 
+.b-box {
+  box-sizing: border-box;
+}
+
 .no-resize {
   resize: none;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.form-radio {
+  margin-left: -1px;
+}
+
+.form-radio:first-child {
+  margin-left: 0;
 }
 
 .b-focus--black-50 {
@@ -96,7 +114,8 @@
   stroke: var(--black-50);
 }
 
-.bar {
+.bar,
+.dot {
   fill: rgb(200,146,181);
 }
 

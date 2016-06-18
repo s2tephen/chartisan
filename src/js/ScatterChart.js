@@ -5,11 +5,11 @@ import * as d3 from 'd3';
 
 import Chart from './Chart.js';
 import {XAxis, YAxis} from './Axis.js';
-import Line from './Line.js';
+import Dot from './Dot.js';
 import Header from './Header.js';
 import Footer from './Footer.js';
 
-class LineChart extends Chart {
+class ScatterChart extends Chart {
   render() {
     return (
       <svg className="fr bg-near-white"
@@ -29,15 +29,14 @@ class LineChart extends Chart {
                  scale={this.xScale} />
           <YAxis className="y"
                  innerWidth={this.innerWidth - this.maxDigits * 10}
-                 margin={this.props.margin.right}
                  transform={`translate(${this.maxDigits * 10}, 0)`}
-                 scale={this.yScale}
-                 maxDigits={this.maxDigits} />
-          <Line cols={this.props.cols}
-                data={this.props.data}
-                colType={this.props.colType}
-                xScale={this.xScale}
-                yScale={this.yScale} />
+                 scale={this.yScale} />
+          {this.props.data.map((d, i) => (
+            <Dot r={4}
+                 cx={this.xScale(d[this.props.cols[0]]) + (this.props.colType === 'ordinal' ? this.xScale.bandwidth()/2 : 0)}
+                 cy={this.yScale(d[this.props.cols[1]])}
+                 key={`dot-${i}`} />
+          ))}
         </g>
         {(this.props.credit || this.props.source) &&
           <Footer innerWidth={this.innerWidth}
@@ -51,4 +50,4 @@ class LineChart extends Chart {
   }
 }
 
-export default LineChart;
+export default ScatterChart;

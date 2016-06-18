@@ -20,21 +20,19 @@ class Axis extends React.Component {
 class XAxis extends Axis {
   constructor(props) {
     super(props);
-    this.axis = d3.axisBottom(props.scale)
-                  .tickSizeInner(-props.innerHeight - 2 * props.margin);
   }
 
   componentDidMount() {
-    d3.select(ReactDOM.findDOMNode(this))
-      .call(this.axis)
-      .selectAll('text')
-      .classed('f6 sans-serif', true)
-      .attr('dy', '1rem');
+    this.updateAxis(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.axis = d3.axisBottom(nextProps.scale)
-                  .tickSizeInner(-nextProps.innerHeight - 2 * nextProps.margin);
+    this.updateAxis(nextProps);
+  }
+
+  updateAxis(props) {
+    this.axis = d3.axisBottom(props.scale)
+                  .tickSizeInner(-props.innerHeight - 2 * props.margin);
 
     d3.select(ReactDOM.findDOMNode(this))
       .call(this.axis)
@@ -55,23 +53,20 @@ XAxis.propTypes = {
 class YAxis extends Axis {
   constructor(props) {
     super(props);
-    this.axis = d3.axisLeft(props.scale)
-                  .ticks(5, ',f')
-                  .tickSizeInner(-props.innerWidth);
   }
 
   componentDidMount() {
-    d3.select(ReactDOM.findDOMNode(this))
-      .call(this.axis)
-      .selectAll('text')
-      .classed('f6 sans-serif', true)
-      .attr('dx', '-.25rem');
+    this.updateAxis(this.props);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.axis = d3.axisLeft(nextProps.scale)
+    this.updateAxis(nextProps);
+  }
+
+  updateAxis(props) {
+    this.axis = d3.axisLeft(props.scale)
                   .ticks(5, ',f')
-                  .tickSizeInner(-nextProps.innerWidth);
+                  .tickSizeInner(-props.innerWidth);
 
     d3.select(ReactDOM.findDOMNode(this))
       .call(this.axis)
