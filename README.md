@@ -8,11 +8,11 @@ You know how pasta is supposed to taste better when you make it from scratch? Th
 What started out as a humble weekend hack project to learn [Webpack](https://github.com/webpack/webpack) snowballed into a full-fledged charting tool (because everyone's gotta have one) built with [React](https://github.com/facebook/react) and the new [D3 4.0](https://github.com/d3/d3). Aesthetically, the charts are mostly derived from the [Tachyons](https://github.com/tachyons-css/tachyons) CSS library, [FiveThirtyEight](https://fivethirtyeight.com) and [leather](https://github.com/wireservice/leather) but I'll be restyling all the things once I finish implementing baseline features. As a stretch goal I might add in some of the things mentioned in Gregor Aisch's [#NICAR15 lightning talk](http://vis4.net/blog/posts/seven-features-youll-wantin-your-next-charting-tool).
 
 #### Changelog
+* **0.2 (06/18/16)** — Added chart/axis switching, implemented line charts and scatterplots.
 * **0.1 (06/14/16)** — First commit, MVP: Reactive D3 ordinal/numeric bar charts with some basic validation.
 
 #### Feature Roadmap
-* Support numeric and time-based x-scales
-* Implement line charts and scatterplots
+* Support time-based x-scales and numeric bar charts (i.e. histograms)
 * Display error messages in UI (currently just thrown in console)
 * Export to SVG/PNG
 * Allow for custom dimensions and sizing
