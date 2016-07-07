@@ -5,6 +5,7 @@ import './css/style.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import moment from 'moment';
 
 import Form from './js/Form.js';
 import BarChart from './js/BarChart.js';
@@ -15,28 +16,23 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cols: ['state', 'enrollment'],
+      cols: ['year', 'score'],
       delimiter: ',',
       data: [
-        {state: 'CA', enrollment: 694},
-        {state: 'NY', enrollment: 384},
-        {state: 'MA', enrollment: 336},
-        {state: 'TX', enrollment: 267},
-        {state: 'FL', enrollment: 232},
-        {state: 'NJ', enrollment: 191},
-        {state: 'IL', enrollment: 148},
-        {state: 'MD', enrollment: 142},
-        {state: 'PA', enrollment: 127},
-        {state: 'VA', enrollment: 126},
-        {state: 'MI', enrollment: 104},
-        {state: 'GA', enrollment: 86},
-        {state: 'CT', enrollment: 85},
-        {state: 'WA', enrollment: 76},
-        {state: 'OH', enrollment: 73},
-        {state: 'NC', enrollment: 70}
+        {'year': 1977, 'score': 8.7},
+        {'year': 1980, 'score': 8.8},
+        {'year': 1983, 'score': 8.4},
+        {'year': 1999, 'score': 7.6},
+        {'year': 2002, 'score': 6.7},
+        {'year': 2005, 'score': 7.6},
+        {'year': 2015, 'score': 8.2}
       ],
-      colType: 'ordinal',
-      chartType: 'bar',
+      colType: 'numeric',
+      chartType: 'line',
+      xMin: '1975',
+      xMax: '2015',
+      yMin: '5',
+      yMax: '10',
       title: 'The Force is strong with this series',
       subtitle: 'Average IMDb user ratings of all Star Wars episodes',
       credit: 'stephensuen.com/chartisan',
@@ -70,10 +66,21 @@ class App extends React.Component {
     this.setState(nextState);
   }
 
+  handleExtentChange(extentName, value) {
+    if (extentName === 'domain') {
+      this.setState({xMin: value[0], xMax: value[1]});
+    } else if (extentName === 'range') {
+      this.setState({yMin: value[0], yMax: value[1]});
+    }
+  }
+
   getColType(rows) {
-    if (rows.every(r => !isNaN(parseFloat(r.split(',')[0])))) {
+    if (rows.every(r => !isNaN(Number(r.split(',')[0])))) {
       this.setState({colType: 'numeric'});
       return 'numeric';
+    } else if (rows.every(r => moment(r.split(',')[0]).isValid())) {
+      this.setState({colType: 'time'});
+      return 'time';
     } else {
       this.setState({colType: 'ordinal'});
       return 'ordinal';
@@ -117,34 +124,37 @@ class App extends React.Component {
     return (
       <div>
         <div className="w-100 w-50-ns pr3 pr5-ns fl">
-          <h1 className="mt0 f4 f3-ns lh-title tracked-tight">Farm to table to chart.</h1>
-          <p className="measure f6 f5-ns lh-copy">
-            <strong>Chartisan</strong> is a browser tool that brings you hand-crafted, highly opinionated charts
-            right from the source — by which I mean <a className="dim link blue" href="//facebook.github.io/react/">
-            React</a>, <a className="dim link blue" href="//d3js.org/">D3</a>, and <a className="dim link blue"
-            href="//tachyons.io/">Tachyons</a>. Plug in some data below to get started!
-          </p>
           <Form chartType={this.state.chartType}
                 colType={this.state.colType}
+                xMin={this.state.xMin}
+                xMax={this.state.xMax}
+                yMin={this.state.yMin}
+                yMax={this.state.yMax}
                 title={this.state.title}
                 subtitle={this.state.subtitle}
                 credit={this.state.credit}
                 source={this.state.source}
                 handleDataChange={this.handleDataChange.bind(this)}
-                handlePropChange={this.handlePropChange.bind(this)} />
+                handlePropChange={this.handlePropChange.bind(this)}
+                handleExtentChange={this.handleExtentChange.bind(this)} />
         </div>
         <div className="w-100 w-50-ns fr">
+          <h2 className="mt0 f6 fw7 ttu tracked">Preview</h2>
           {this.state.chartType === 'bar' &&
             <BarChart width={640}
                       height={480}
                       margin={{'top': marginTop, 'right': 20, 'bottom': marginBottom, 'left': 40}}
+                      padding={0.2}
                       cols={this.state.cols}
                       data={this.state.data}
                       colType={this.state.colType}
+                      domain={[this.state.xMin, this.state.xMax]}
+                      range={[this.state.yMin, this.state.yMax]}
                       title={this.state.title}
                       subtitle={this.state.subtitle}
                       credit={this.state.credit}
-                      source={this.state.source} />
+                      source={this.state.source}
+                      handleExtentChange={this.handleExtentChange.bind(this)} />
           }
           {this.state.chartType === 'line' &&
             <LineChart width={640}
@@ -153,10 +163,13 @@ class App extends React.Component {
                        cols={this.state.cols}
                        data={this.state.data}
                        colType={this.state.colType}
+                       domain={[this.state.xMin, this.state.xMax]}
+                       range={[this.state.yMin, this.state.yMax]}
                        title={this.state.title}
                        subtitle={this.state.subtitle}
                        credit={this.state.credit}
-                       source={this.state.source} />
+                       source={this.state.source}
+                       handleExtentChange={this.handleExtentChange.bind(this)} />
           }
           {this.state.chartType === 'scatter' &&
             <ScatterChart width={640}
@@ -165,17 +178,19 @@ class App extends React.Component {
                           cols={this.state.cols}
                           data={this.state.data}
                           colType={this.state.colType}
+                          domain={[this.state.xMin, this.state.xMax]}
+                          range={[this.state.yMin, this.state.yMax]}
                           title={this.state.title}
                           subtitle={this.state.subtitle}
                           credit={this.state.credit}
-                          source={this.state.source} />
+                          source={this.state.source}
+                          handleExtentChange={this.handleExtentChange.bind(this)} />
           }
         </div>
       </div>
     );
   }
 }
-
 
 ReactDOM.render(
   <App />,

@@ -10,9 +10,25 @@ import Header from './Header.js';
 import Footer from './Footer.js';
 
 class BarChart extends Chart {
+  barWidth() {
+    if (this.props.colType === 'ordinal') {
+      return this.xScale.bandwidth();
+    } else {
+      return this.innerWidth / (this.xScale.domain()[1] - this.xScale.domain()[0]);
+    }
+  }
+
+  x(d) {
+    if (this.props.colType === 'ordinal') {
+      return this.xScale(d[this.props.cols[0]]);
+    } else {
+      return this.xScale(d[this.props.cols[0]]) - this.barWidth() / 2;
+    }
+  }
+
   render() {
     return (
-      <svg className="fr bg-near-white"
+      <svg className="fl bg-near-white"
            width={this.props.width}
            height={this.props.height}>
         {(this.props.title || this.props.subtitle) &&
@@ -32,9 +48,9 @@ class BarChart extends Chart {
                  transform={`translate(${this.maxDigits * 10}, 0)`}
                  scale={this.yScale} />
           {this.props.data.map((d, i) => (
-            <Bar x={this.xScale(d[this.props.cols[0]])}
-                 y={this.yScale(d[this.props.cols[1]])}
-                 width={this.xScale.bandwidth()}
+            <Bar x={this.x(d)}
+                 y={this.y(d)}
+                 width={this.barWidth()}
                  height={this.innerHeight - this.yScale(d[this.props.cols[1]])}
                  key={`bar-${i}`} />
           ))}

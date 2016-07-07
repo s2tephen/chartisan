@@ -11,18 +11,18 @@ class Footer extends React.Component {
     return (
       <g className="footer"
          transform={this.props.transform}>
-        <line className="stroke--black-30"
+        <line className="stroke--black-20"
               x2={this.props.innerWidth + this.props.margin}
               y1="0"
               y2="0" />
         {this.props.credit &&
-          <text className="f6 ttu fill--black-30"
+          <text className="f6 ttu fill--black-20"
                 y={this.props.margin}>
             {this.props.credit}
           </text>
         }
         {this.props.source &&
-          <text className="f6 ttu fill--black-30"
+          <text className="f6 ttu fill--black-20"
                 x={this.props.innerWidth + this.props.margin}
                 y={this.props.margin}
                 textAnchor="end">

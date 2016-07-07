@@ -10,9 +10,18 @@ import Header from './Header.js';
 import Footer from './Footer.js';
 
 class LineChart extends Chart {
+  x(d) {
+    if (this.props.colType === 'time') {
+      return this.xScale(new Date(d[this.props.cols[0]].toString()));
+    } else if (this.props.colType === 'ordinal') {
+      return this.xScale(d[this.props.cols[0]]) + this.xScale.bandwidth() / 2;
+    }
+    return this.xScale(d[this.props.cols[0]]);
+  }
+
   render() {
     return (
-      <svg className="fr bg-near-white"
+      <svg className="fl bg-near-white"
            width={this.props.width}
            height={this.props.height}>
         {(this.props.title || this.props.subtitle) &&
@@ -31,13 +40,12 @@ class LineChart extends Chart {
                  innerWidth={this.innerWidth - this.maxDigits * 10}
                  margin={this.props.margin.right}
                  transform={`translate(${this.maxDigits * 10}, 0)`}
-                 scale={this.yScale}
-                 maxDigits={this.maxDigits} />
+                 scale={this.yScale} />
           <Line cols={this.props.cols}
                 data={this.props.data}
                 colType={this.props.colType}
-                xScale={this.xScale}
-                yScale={this.yScale} />
+                x={this.x.bind(this)}
+                y={this.y.bind(this)} />
         </g>
         {(this.props.credit || this.props.source) &&
           <Footer innerWidth={this.innerWidth}

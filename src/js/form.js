@@ -4,6 +4,7 @@ import React from 'react';
 
 import RadioInput from './RadioInput.js';
 import TextInput from './TextInput.js';
+import ExtentInput from './ExtentInput.js';
 
 class Form extends React.Component {
   constructor(props) {
@@ -12,20 +13,36 @@ class Form extends React.Component {
   render() {
     return (
       <div className="form">
-        <h2 className="mt4 f6 fw7 ttu tracked">Data (CSV or TSV)</h2>
+        <h2 className="mt0 f6 fw7 ttu tracked">Data (CSV or TSV)</h2>
         <textarea className="form-data w-100 pa1 h4 f5 f6-ns monospace b--black-20 b-focus--black-50 no-resize"
-                  defaultValue={'location,enrollment\nCA,694\nNY,384\nMA,336\nTX,267\nFL,232\nNJ,191\nIL,148\nMD,142\nPA,127\nVA,126\nMI,104\nGA,86\nCT,85\nWA,76\nOH,73\nNC,70'}
+                  defaultValue={'year,score\n1977,8.7\n1980,8.8\n1983,8.4\n1999,7.6\n2002,6.7\n2005,7.6\n2015,8.2'}
                   onChange={this.props.handleDataChange.bind(this)} />
         <RadioInput field="chartType"
-                    label="Chart"
+                    label="chart"
                     value={this.props.chartType}
                     options={['bar', 'line', 'scatter']}
                     onChange={this.props.handlePropChange} />
         <RadioInput field="colType"
-                    label="X-Axis"
+                    label="x-axis"
                     value={this.props.colType}
                     options={['ordinal', 'numeric', 'time']}
                     onChange={this.props.handlePropChange} />
+        {this.props.colType === 'numeric' &&
+          <ExtentInput field1="xMin"
+                       field2="xMax"
+                       label="domain"
+                       value1={this.props.xMin}
+                       value2={this.props.xMax}
+                       onChange={this.props.handlePropChange}
+                       onClick={this.props.handleExtentChange} />
+        }
+        <ExtentInput field1="yMin"
+                     field2="yMax"
+                     label="range"
+                     value1={this.props.yMin}
+                     value2={this.props.yMax}
+                     onChange={this.props.handlePropChange}
+                     onClick={this.props.handleExtentChange} />
         <TextInput field="title"
                    value={this.props.title}
                    maxLength="50"
@@ -55,7 +72,11 @@ Form.propTypes = {
   handlePropChange: React.PropTypes.func,
   source: React.PropTypes.string,
   subtitle: React.PropTypes.string,
-  title: React.PropTypes.string
+  title: React.PropTypes.string,
+  xMax: React.PropTypes.string,
+  xMin: React.PropTypes.string,
+  yMax: React.PropTypes.string,
+  yMin: React.PropTypes.string
 };
 
 export default Form;

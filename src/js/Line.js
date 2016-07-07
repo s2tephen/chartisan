@@ -9,8 +9,8 @@ class Line extends React.Component {
     super(props);
 
     this.line = d3.line()
-                  .x(d => props.xScale(d[props.cols[0]]) + (props.colType === 'ordinal' ? props.xScale.bandwidth()/2 : 0))
-                  .y(d => props.yScale(d[props.cols[1]]));
+                  .x(d => props.x(d))
+                  .y(d => props.y(d));
   }
 
   componentDidMount() {
@@ -21,8 +21,8 @@ class Line extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     this.line = d3.line()
-                  .x(d => nextProps.xScale(d[nextProps.cols[0]]) + (nextProps.colType === 'ordinal' ? nextProps.xScale.bandwidth()/2 : 0))
-                  .y(d => nextProps.yScale(d[nextProps.cols[1]]));
+                  .x(d => nextProps.x(d))
+                  .y(d => nextProps.y(d));
 
     d3.select(ReactDOM.findDOMNode(this))
       .datum(nextProps.data)
@@ -40,8 +40,8 @@ Line.propTypes = {
   cols: React.PropTypes.array,
   colType: React.PropTypes.string,
   data: React.PropTypes.array,
-  xScale: React.PropTypes.func,
-  yScale: React.PropTypes.func
+  x: React.PropTypes.func,
+  y: React.PropTypes.func
 };
 
 export default Line;

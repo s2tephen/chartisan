@@ -10,9 +10,18 @@ import Header from './Header.js';
 import Footer from './Footer.js';
 
 class ScatterChart extends Chart {
+  x(d) {
+    if (this.props.colType === 'time') {
+      return this.xScale(new Date(d[this.props.cols[0]].toString()));
+    } else if (this.props.colType === 'ordinal') {
+      return this.xScale(d[this.props.cols[0]]) + this.xScale.bandwidth() / 2;
+    }
+    return this.xScale(d[this.props.cols[0]]);
+  }
+
   render() {
     return (
-      <svg className="fr bg-near-white"
+      <svg className="fl bg-near-white"
            width={this.props.width}
            height={this.props.height}>
         {(this.props.title || this.props.subtitle) &&
@@ -33,8 +42,8 @@ class ScatterChart extends Chart {
                  scale={this.yScale} />
           {this.props.data.map((d, i) => (
             <Dot r={4}
-                 cx={this.xScale(d[this.props.cols[0]]) + (this.props.colType === 'ordinal' ? this.xScale.bandwidth()/2 : 0)}
-                 cy={this.yScale(d[this.props.cols[1]])}
+                 cx={this.x(d)}
+                 cy={this.y(d)}
                  key={`dot-${i}`} />
           ))}
         </g>

@@ -34,11 +34,20 @@ class XAxis extends Axis {
     this.axis = d3.axisBottom(props.scale)
                   .tickSizeInner(-props.innerHeight - 2 * props.margin);
 
-    d3.select(ReactDOM.findDOMNode(this))
-      .call(this.axis)
-      .selectAll('text')
-      .classed('f6 sans-serif', true)
-      .attr('dy', '1rem');
+    let axis = d3.select(ReactDOM.findDOMNode(this))
+                 .call(this.axis);
+
+    axis.select('.domain')
+        .classed('stroke--transparent', true);
+
+    let ticks = axis.selectAll('.tick');
+    
+    ticks.select('text')
+         .attr('dy', '1rem')
+         .classed('f6 sans-serif fill--black-30', true);
+
+    ticks.select('line')
+         .classed('stroke--black-10', true);
   }
 }
 
@@ -68,11 +77,25 @@ class YAxis extends Axis {
                   .ticks(5, ',f')
                   .tickSizeInner(-props.innerWidth);
 
-    d3.select(ReactDOM.findDOMNode(this))
-      .call(this.axis)
-      .selectAll('text')
-      .classed('f6 sans-serif', true)
-      .attr('dx', '-.25rem');
+    let axis = d3.select(ReactDOM.findDOMNode(this))
+                 .call(this.axis);
+
+    axis.select('.domain')
+        .classed('stroke--transparent', true);
+
+    let ticks = axis.selectAll('.tick');
+    
+    ticks.select('text')
+         .attr('dx', '-.25rem')
+         .classed('f6 sans-serif fill--black-30', true);
+
+    if (props.scale.domain()[0] < 0 && props.scale.domain()[1] > 0) {
+      ticks.select('line')
+           .attr('class', (d, i) => d ? 'stroke--black-10' : 'stroke--black-50');
+    } else {
+      ticks.select('line')
+           .attr('class', (d, i) => i ? 'stroke--black-10' : 'stroke--black-50');
+    }
   }
 }
 
