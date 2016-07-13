@@ -37,8 +37,8 @@ class ScatterChart extends Chart {
                  transform={`translate(0, ${this.innerHeight + this.props.margin.right})`}
                  scale={this.xScale} />
           <YAxis className="y"
-                 innerWidth={this.innerWidth - this.maxDigits * 10}
-                 transform={`translate(${this.maxDigits * 10}, 0)`}
+                 innerWidth={this.innerWidth - this.yAxisOffset}
+                 transform={`translate(${this.yAxisOffset}, 0)`}
                  scale={this.yScale} />
           {this.props.data.map((d, i) => (
             <Dot r={4}

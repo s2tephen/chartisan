@@ -44,8 +44,8 @@ class BarChart extends Chart {
                  transform={`translate(0, ${this.innerHeight})`}
                  scale={this.xScale} />
           <YAxis className="y"
-                 innerWidth={this.innerWidth - this.maxDigits * 10}
-                 transform={`translate(${this.maxDigits * 10}, 0)`}
+                 innerWidth={this.innerWidth - this.yAxisOffset}
+                 transform={`translate(${this.yAxisOffset}, 0)`}
                  scale={this.yScale} />
           {this.props.data.map((d, i) => (
             <Bar x={this.x(d)}

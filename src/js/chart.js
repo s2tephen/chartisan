@@ -8,23 +8,21 @@ class Chart extends React.Component {
   constructor(props) {
     super(props);
 
-    this.innerHeight = props.height - props.margin.top - props.margin.bottom;
-    this.setYScale(props, false);
-
-    this.maxDigits = Math.max(-0.5, this.yScale.domain()[1].toString().length - 2);
     this.innerWidth = props.width - props.margin.left - props.margin.right;
+    this.innerHeight = props.height - props.margin.top - props.margin.bottom;
+
     this.setXScale(props, false);
+    this.setYScale(props, false);
   }
 
   componentWillReceiveProps(nextProps) {
     let dataDidChange = !_.isEqual(this.props.data, nextProps.data);
 
-    this.innerHeight = nextProps.height - nextProps.margin.top - nextProps.margin.bottom;
-    this.setYScale(nextProps, dataDidChange);
-
-    this.maxDigits = Math.max(-0.5, ...this.yScale.ticks(5).map(t => t.toString().length - 2));
     this.innerWidth = nextProps.width - nextProps.margin.left - nextProps.margin.right;
+    this.innerHeight = nextProps.height - nextProps.margin.top - nextProps.margin.bottom;
+
     this.setXScale(nextProps, dataDidChange);
+    this.setYScale(nextProps, dataDidChange);
   }
 
   setXScale(props, dataDidChange) {
@@ -46,7 +44,7 @@ class Chart extends React.Component {
                       .nice(d3.timeYear, 5);
     } else {
       this.xScale = d3.scaleBand()
-                      .rangeRound([this.maxDigits * 10, this.innerWidth])
+                      .rangeRound([0, this.innerWidth])
                       .padding(0.1)
                       .domain(props.data.map(d => d[props.cols[0]]));
     }
@@ -63,6 +61,16 @@ class Chart extends React.Component {
     } else {
       this.yScale.domain(props.range);
     }
+
+    this.yAxisOffset = 10 * Math.max(0, ...this.yScale.ticks(5)
+                                                      .map(this.yScale.tickFormat(5, ',f'))
+                                                      .map(this.tickLength));
+  }
+
+  tickLength(tick) {
+    return tick.split('')
+               .map(d => isNaN(d) ? 0.5 : 1)
+               .reduce((a, b) => a + b) - 2;
   }
 
   x(d) {

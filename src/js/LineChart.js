@@ -37,9 +37,9 @@ class LineChart extends Chart {
                  transform={`translate(0, ${this.innerHeight + this.props.margin.right})`}
                  scale={this.xScale} />
           <YAxis className="y"
-                 innerWidth={this.innerWidth - this.maxDigits * 10}
+                 innerWidth={this.innerWidth - this.yAxisOffset}
                  margin={this.props.margin.right}
-                 transform={`translate(${this.maxDigits * 10}, 0)`}
+                 transform={`translate(${this.yAxisOffset}, 0)`}
                  scale={this.yScale} />
           <Line cols={this.props.cols}
                 data={this.props.data}
