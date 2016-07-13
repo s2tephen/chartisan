@@ -22,11 +22,13 @@ class Form extends React.Component {
                     value={this.props.chartType}
                     options={['bar', 'line', 'scatter']}
                     onChange={this.props.handlePropChange} />
-        <RadioInput field="colType"
+        {this.props.chartType !== 'bar' &&
+          <RadioInput field="colType"
                     label="x-axis"
                     value={this.props.colType}
                     options={['ordinal', 'numeric', 'time']}
                     onChange={this.props.handlePropChange} />
+        }
         {this.props.colType === 'numeric' &&
           <ExtentInput field1="xMin"
                        field2="xMax"

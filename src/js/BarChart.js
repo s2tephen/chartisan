@@ -10,20 +10,11 @@ import Header from './Header.js';
 import Footer from './Footer.js';
 
 class BarChart extends Chart {
-  barWidth() {
-    if (this.props.colType === 'ordinal') {
-      return this.xScale.bandwidth();
-    } else {
-      return this.innerWidth / (this.xScale.domain()[1] - this.xScale.domain()[0]);
-    }
-  }
-
-  x(d) {
-    if (this.props.colType === 'ordinal') {
-      return this.xScale(d[this.props.cols[0]]);
-    } else {
-      return this.xScale(d[this.props.cols[0]]) - this.barWidth() / 2;
-    }
+  setXScale(props, dataDidChange) {
+    this.xScale = d3.scaleBand()
+                    .rangeRound([0, this.innerWidth])
+                    .padding(0.1)
+                    .domain(props.data.map(d => d[props.cols[0]]));
   }
 
   render() {
@@ -50,7 +41,7 @@ class BarChart extends Chart {
           {this.props.data.map((d, i) => (
             <Bar x={this.x(d)}
                  y={this.y(d)}
-                 width={this.barWidth()}
+                 width={this.xScale.bandwidth()}
                  height={this.innerHeight - this.yScale(d[this.props.cols[1]])}
                  key={`bar-${i}`} />
           ))}

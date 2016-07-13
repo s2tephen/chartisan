@@ -26,7 +26,12 @@ class Chart extends React.Component {
   }
 
   setXScale(props, dataDidChange) {
-    if (props.colType === 'numeric') {
+    if (props.colType === 'ordinal') {
+      this.xScale = d3.scaleBand()
+                      .rangeRound([0, this.innerWidth])
+                      .padding(0.1)
+                      .domain(props.data.map(d => d[props.cols[0]]));
+    } else if (props.colType === 'numeric') {
       this.xScale = d3.scaleLinear()
                       .rangeRound([props.margin.right, this.innerWidth - props.margin.right]);
 
@@ -37,16 +42,11 @@ class Chart extends React.Component {
       } else {
         this.xScale.domain(props.domain);
       }
-    } else if (props.colType === 'time') {
+    } else {
       this.xScale = d3.scaleTime()
                       .rangeRound([props.margin.right, this.innerWidth - props.margin.right])
                       .domain(d3.extent(props.data, d => d[props.cols[0]]).map(d => new Date(d.toString())))
                       .nice(d3.timeYear, 5);
-    } else {
-      this.xScale = d3.scaleBand()
-                      .rangeRound([0, this.innerWidth])
-                      .padding(0.1)
-                      .domain(props.data.map(d => d[props.cols[0]]));
     }
   }
 
