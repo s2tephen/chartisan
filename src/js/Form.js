@@ -93,9 +93,9 @@ class Form extends React.Component {
         <div className="form-export dt w-100 mt2">
           <h2 className="dtc w-20 f6 fw7 ttu tracked v-mid">Export</h2>
           <fieldset className="dtc w-100 h2 pa0 ma0 bn">
-            <button className="form-button b-box w-34 h2 pa1 ba b--black-20 bg-near-white bg-hover--black-20 outline-0 pointer"
+            <button className="form-button b-box w-50 h2 pa1 ba b--black-20 bg-near-white bg-hover--black-20 outline-0 pointer"
                     onClick={this.exportPng.bind(this)}>PNG</button>
-            <button className="form-button b-box w-33 h2 pa1 ba b--black-20 bg-near-white bg-hover--black-20 outline-0 pointer"
+            <button className="form-button b-box w-50 h2 pa1 ba b--black-20 bg-near-white bg-hover--black-20 outline-0 pointer"
                     onClick={this.exportSvg.bind(this)}>SVG</button>
           </fieldset>
         </div>
