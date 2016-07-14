@@ -26,5 +26,8 @@
     "tachyons-outlines": "^1.0.0",
     "tachyons-z-index": "^1.0.0",
     "webpack": "^1.13.1"
+  },
+  "dependencies": {
+    "save-svg-as-png": "^1.0.3"
   }
 }

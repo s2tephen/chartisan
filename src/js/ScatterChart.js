@@ -21,9 +21,12 @@ class ScatterChart extends Chart {
 
   render() {
     return (
-      <svg className="fl bg-near-white"
+      <svg className="fl"
            width={this.props.width}
            height={this.props.height}>
+        <rect width={this.props.width}
+              height={this.props.height}
+              fill="rgb(244,244,244)" />
         {(this.props.title || this.props.subtitle) &&
           <Header transform={`translate(${this.props.margin.right}, ${this.props.margin.left})`}
                   title={this.props.title}

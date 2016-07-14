@@ -5,6 +5,7 @@ import './css/style.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import * as d3 from 'd3';
 import moment from 'moment';
 
 import Form from './js/Form.js';
@@ -126,6 +127,7 @@ class App extends React.Component {
         <div className="w-100 w-50-ns pr3 pr5-ns fl">
           <Form chartType={this.state.chartType}
                 colType={this.state.colType}
+                cols={this.state.cols}
                 xMin={this.state.xMin}
                 xMax={this.state.xMax}
                 yMin={this.state.yMin}

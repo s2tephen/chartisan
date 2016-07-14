@@ -16,13 +16,13 @@ class Footer extends React.Component {
               y1="0"
               y2="0" />
         {this.props.credit &&
-          <text className="f6 ttu fill--black-20"
+          <text className="f6 sans-serif ttu fill--black-20"
                 y={this.props.margin}>
             {this.props.credit}
           </text>
         }
         {this.props.source &&
-          <text className="f6 ttu fill--black-20"
+          <text className="f6 sans-serif ttu fill--black-20"
                 x={this.props.innerWidth + this.props.margin}
                 y={this.props.margin}
                 textAnchor="end">

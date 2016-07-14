@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import saveSvgAsPng from 'save-svg-as-png';
 
 import RadioInput from './RadioInput.js';
 import TextInput from './TextInput.js';
@@ -10,6 +11,34 @@ class Form extends React.Component {
   constructor(props) {
     super(props);
   }
+
+  exportPng() {
+    saveSvgAsPng.saveSvgAsPng(
+      document.querySelector('svg'), this.getFilename('png'), {scale: 2.0}
+    );
+  }
+
+  exportSvg() {
+    let self = this;
+
+    saveSvgAsPng.svgAsDataUri(document.querySelector('svg'), {}, function(uri) {
+      let a = document.createElement('a');
+      a.download = self.getFilename('svg');
+      a.href = uri;
+      document.body.appendChild(a);
+      a.click();
+      a.parentNode.removeChild(a);
+    });
+  }
+
+  getFilename(extension) {
+    if (this.props.title) {
+      return `${this.props.title.replace(/[^a-z0-9]/gi, '-').toLowerCase()}-chart.${extension}`;
+    } else {
+      return `${this.props.cols[1]}-vs-${this.props.cols[0]}-chart.${extension}`;
+    }
+  }
+
   render() {
     return (
       <div className="form">
@@ -29,7 +58,7 @@ class Form extends React.Component {
                     options={['ordinal', 'numeric', 'time']}
                     onChange={this.props.handlePropChange} />
         }
-        {this.props.colType === 'numeric' &&
+        {this.props.chartType !== 'bar' && this.props.colType === 'numeric' &&
           <ExtentInput field1="xMin"
                        field2="xMax"
                        label="domain"
@@ -61,6 +90,15 @@ class Form extends React.Component {
                    value={this.props.source}
                    maxLength="30"
                    onChange={this.props.handlePropChange} />
+        <div className="form-export dt w-100 mt2">
+          <h2 className="dtc w-20 f6 fw7 ttu tracked v-mid">Export</h2>
+          <fieldset className="dtc w-100 h2 pa0 ma0 bn">
+            <button className="form-button b-box w-34 h2 pa1 ba b--black-20 bg-near-white bg-hover--black-20 outline-0 pointer"
+                    onClick={this.exportPng.bind(this)}>PNG</button>
+            <button className="form-button b-box w-33 h2 pa1 ba b--black-20 bg-near-white bg-hover--black-20 outline-0 pointer"
+                    onClick={this.exportSvg.bind(this)}>SVG</button>
+          </fieldset>
+        </div>
       </div>
     );
   }

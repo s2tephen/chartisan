@@ -12,12 +12,12 @@ class Header extends React.Component {
       <g className="header"
          transform={this.props.transform}>
         {this.props.title &&
-          <text className="f3 fw7 tracked-tight fill--black-70">
+          <text className="f3 sans-serif fw7 tracked-tight fill--black-70">
             {this.props.title}
           </text>
         }
         {this.props.subtitle &&
-          <text className="f4 fw4 i fill--black-50"
+          <text className="f4 sans-serif fw4 i fill--black-50"
                 y={this.props.title ? '1.5rem' : null}>
             {this.props.subtitle}
           </text>

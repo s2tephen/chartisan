@@ -69,7 +69,8 @@ input.form-extent {
   }
 }
 
-button.form-extent {
+button.form-extent,
+.form-button {
   margin-left: -1px;
 }
 
