@@ -2,6 +2,7 @@
 
 import React from 'react';
 import * as d3 from 'd3';
+import _ from 'lodash';
 
 import Chart from './Chart.js';
 import {XAxis, YAxis} from './Axis.js';
@@ -17,6 +18,10 @@ class LineChart extends Chart {
       return this.xScale(d[this.props.cols[0]]) + this.xScale.bandwidth() / 2;
     }
     return this.xScale(d[this.props.cols[0]]);
+  }
+
+  y(d, i) {
+    return this.yScale(d[this.props.cols[i + 1]]);
   }
 
   render() {
@@ -44,11 +49,15 @@ class LineChart extends Chart {
                  margin={this.props.margin.right}
                  transform={`translate(${this.yAxisOffset}, 0)`}
                  scale={this.yScale} />
-          <Line cols={this.props.cols}
-                data={this.props.data}
-                colType={this.props.colType}
-                x={this.x.bind(this)}
-                y={this.y.bind(this)} />
+          {_.tail(this.props.cols).map((c, i) => (
+            <Line cols={this.props.cols}
+                  data={this.sliceData(c)}
+                  i={i}
+                  x={this.x.bind(this)}
+                  y={this.y.bind(this)}
+                  color={this.colors[i]}
+                  key={`line-${i}`} />
+          ))}
         </g>
         {(this.props.credit || this.props.source) &&
           <Footer innerWidth={this.innerWidth}

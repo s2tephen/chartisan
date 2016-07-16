@@ -10,7 +10,7 @@ class Line extends React.Component {
 
     this.line = d3.line()
                   .x(d => props.x(d))
-                  .y(d => props.y(d));
+                  .y(d => props.y(d, props.i));
   }
 
   componentDidMount() {
@@ -22,7 +22,7 @@ class Line extends React.Component {
   componentWillReceiveProps(nextProps) {
     this.line = d3.line()
                   .x(d => nextProps.x(d))
-                  .y(d => nextProps.y(d));
+                  .y(d => nextProps.y(d, nextProps.i));
 
     d3.select(ReactDOM.findDOMNode(this))
       .datum(nextProps.data)
@@ -31,15 +31,15 @@ class Line extends React.Component {
 
   render() {
     return (
-      <path className="line" />
+      <path className={`line stroke--${this.props.color}`} />
     );
   }
 }
 
 Line.propTypes = {
-  cols: React.PropTypes.array,
-  colType: React.PropTypes.string,
+  color: React.PropTypes.string,
   data: React.PropTypes.array,
+  i: React.PropTypes.number,
   x: React.PropTypes.func,
   y: React.PropTypes.func
 };

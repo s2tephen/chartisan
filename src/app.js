@@ -17,44 +17,45 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cols: ['year', 'score'],
+      cols: ['year', 'imdb', 'rt'],
       delimiter: ',',
       data: [
-        {'year': 1977, 'score': 8.7},
-        {'year': 1980, 'score': 8.8},
-        {'year': 1983, 'score': 8.4},
-        {'year': 1999, 'score': 7.6},
-        {'year': 2002, 'score': 6.7},
-        {'year': 2005, 'score': 7.6},
-        {'year': 2015, 'score': 8.2}
+        {'year': 1977, 'imdb': 87, 'rt': 93},
+        {'year': 1980, 'imdb': 88, 'rt': 94},
+        {'year': 1983, 'imdb': 84, 'rt': 80},
+        {'year': 1999, 'imdb': 76, 'rt': 55},
+        {'year': 2002, 'imdb': 67, 'rt': 65},
+        {'year': 2005, 'imdb': 76, 'rt': 79},
+        {'year': 2015, 'imdb': 82, 'rt': 92}
       ],
-      colType: 'numeric',
+      colType: 'time',
       chartType: 'line',
       xMin: '1975',
       xMax: '2015',
-      yMin: '5',
-      yMax: '10',
+      yMin: '50',
+      yMax: '100',
       title: 'The Force is strong with this series',
-      subtitle: 'Average IMDb user ratings of all Star Wars episodes',
+      subtitle: 'Average ratings of Star Wars episodes by release year',
       credit: 'stephensuen.com/chartisan',
-      source: 'IMDb'
+      source: 'IMDb/Rotten Tomatoes'
     };
   }
 
   handleDataChange(e) {
     let rows = e.target.value.split('\n');
     let delimiter = this.getDelimiter(rows);
-    let cols = rows.shift().split(delimiter);
-    let colType = this.getColType(rows);
+    let cols = rows.shift().split(delimiter),
+        colType = this.getColType(rows);
 
     if (this.validateData(rows, cols, delimiter)) {    
       this.setState({
         cols: cols,
         data: rows.map(function(r) {
-          let vals = r.split(delimiter);
-          let row = {};
-          row[cols[0]] = vals[0];
-          row[cols[1]] = parseFloat(vals[1]);
+          let vals = r.split(delimiter),
+              row = {};
+          for (let i = 0; i < cols.length; i++) {
+            row[cols[i]] = vals[i];
+          }
           return row;
         })
       });
@@ -102,7 +103,9 @@ class App extends React.Component {
 
   validateData(rows, cols, delimiter) {
     let numCols = cols.length;
-    if (rows.some(r => r.split(delimiter).length !== numCols)) {
+    if (numCols > 5) {
+      throw new Error('Data has too many columns.');
+    } else if (rows.some(r => r.split(delimiter).length !== numCols)) {
       throw new Error('Data contains an inconsistent number of columns.');
     } else if (rows.map(r => r.split(delimiter).slice(1))
                    .reduce((a, b) => a.concat(b))
@@ -114,11 +117,12 @@ class App extends React.Component {
   }
 
   render() {
-    let marginTop = 50;
+    let marginTop = 50,
+        marginBottom = 40;
+
     if (this.state.title || this.state.subtitle) marginTop += 25;
     if (this.state.title && this.state.subtitle) marginTop += 25;
 
-    let marginBottom = 40;
     if (this.state.chartType !== 'bar') marginBottom += 20;
     if (this.state.credit || this.state.source) marginBottom += 40;
 

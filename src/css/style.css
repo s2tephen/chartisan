@@ -13,15 +13,21 @@
   --black-30: rgba(0,0,0,.3);
   --black-20: rgba(0,0,0,.2);
   --black-10: rgba(0,0,0,.1);
+
   --transparent: transparent;
+
+    --blue: rgb(93,183,222);
+   --green: rgb(125,206,130);
+  --orange: rgb(255,131,96);
+  --purple: rgb(192,132,151);
 }
 
 @for $i from 10 to 90 by 10 {
-  .fill--black-$i { fill: var(--black-$i) }
+  .fill--black-$i   { fill: var(--black-$i) }
   .stroke--black-$i { stroke: var(--black-$i) }
 }
 
-.fill--transparent { fill: var(--transparent) }
+.fill--transparent   { fill: var(--transparent) }
 .stroke--transparent { stroke: var(--transparent) }
 
 .sans-serif {
@@ -95,10 +101,10 @@ button.form-extent,
 
 .line {
   fill: none;
-  stroke: rgb(200,146,181);
   stroke-width: 3px;
 }
 
-.blue {
-  color: rgb(0,116,217);
-}
+.stroke--blue   { stroke: var(--blue) }
+.stroke--green  { stroke: var(--green) }
+.stroke--orange { stroke: var(--orange) }
+.stroke--purple { stroke: var(--purple) }

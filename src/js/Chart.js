@@ -13,6 +13,8 @@ class Chart extends React.Component {
 
     this.setXScale(props, false);
     this.setYScale(props, false);
+
+    this.colors = _.shuffle(['blue', 'green', 'orange', 'purple']);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -55,7 +57,13 @@ class Chart extends React.Component {
                     .rangeRound([this.innerHeight, 0]);
 
     if (dataDidChange || props.range[0] === null) {
-      this.yScale.domain(d3.extent(props.data, d => d[props.cols[1]]))
+      let yVals = [];
+      for (let i = 1; i < props.cols.length; i++) {
+        yVals = yVals.concat(props.data.map(d => d[props.cols[i]]));
+      }
+      yVals.sort((a, b) => a - b);
+
+      this.yScale.domain([yVals[0], yVals[yVals.length - 1]])
                  .nice(1);
       props.handleExtentChange('range', this.yScale.domain().map(y => y.toString()));
     } else {
@@ -79,6 +87,10 @@ class Chart extends React.Component {
 
   y(d) {
     return this.yScale(d[this.props.cols[1]]);
+  }
+
+  sliceData(col) {
+    return this.props.data.map(d => _.pick(d, [this.props.cols[0], col]));
   }
 }
 
