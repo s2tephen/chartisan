@@ -94,15 +94,15 @@ button.form-extent,
   }
 }
 
-.bar,
-.dot {
-  fill: rgb(200,146,181);
-}
-
 .line {
   fill: none;
   stroke-width: 3px;
 }
+
+.fill--blue   { fill: var(--blue) }
+.fill--green  { fill: var(--green) }
+.fill--orange { fill: var(--orange) }
+.fill--purple { fill: var(--purple) }
 
 .stroke--blue   { stroke: var(--blue) }
 .stroke--green  { stroke: var(--green) }

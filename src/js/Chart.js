@@ -14,7 +14,7 @@ class Chart extends React.Component {
     this.setXScale(props, false);
     this.setYScale(props, false);
 
-    this.colors = _.shuffle(['blue', 'green', 'orange', 'purple']);
+    this.colors = ['purple', 'blue', 'orange', 'green'];
   }
 
   componentWillReceiveProps(nextProps) {

@@ -5,7 +5,7 @@ import * as d3 from 'd3';
 
 import Chart from './Chart.js';
 import {XAxis, YAxis} from './Axis.js';
-import Dot from './Dot.js';
+import DotGroup from './DotGroup.js';
 import Header from './Header.js';
 import Footer from './Footer.js';
 
@@ -17,6 +17,10 @@ class ScatterChart extends Chart {
       return this.xScale(d[this.props.cols[0]]) + this.xScale.bandwidth() / 2;
     }
     return this.xScale(d[this.props.cols[0]]);
+  }
+
+  y(d, i) {
+    return this.yScale(d[this.props.cols[i + 1]]);
   }
 
   render() {
@@ -43,11 +47,13 @@ class ScatterChart extends Chart {
                  innerWidth={this.innerWidth - this.yAxisOffset}
                  transform={`translate(${this.yAxisOffset}, 0)`}
                  scale={this.yScale} />
-          {this.props.data.map((d, i) => (
-            <Dot r={4}
-                 cx={this.x(d)}
-                 cy={this.y(d)}
-                 key={`dot-${i}`} />
+          {_.tail(this.props.cols).map((c, i) => (
+            <DotGroup data={this.sliceData(c)}
+                      i={i}
+                      x={this.x.bind(this)}
+                      y={this.y.bind(this)}
+                      color={this.colors[i]}
+                      key={`dotGroup-${i}`} />
           ))}
         </g>
         {(this.props.credit || this.props.source) &&

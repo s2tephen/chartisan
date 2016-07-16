@@ -9,8 +9,8 @@ class Dot extends React.Component {
 
   render() {
     return (
-      <circle className="dot"
-              r={this.props.r}
+      <circle className={`dot fill--${this.props.color}`}
+              r="4"
               cx={this.props.cx}
               cy={this.props.cy} />
     );
@@ -18,9 +18,9 @@ class Dot extends React.Component {
 }
 
 Dot.propTypes = {
+  color: React.PropTypes.string,
   cx: React.PropTypes.number,
-  cy: React.PropTypes.number,
-  r: React.PropTypes.number
+  cy: React.PropTypes.number
 };
 
 export default Dot;

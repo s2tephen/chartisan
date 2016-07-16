@@ -50,8 +50,7 @@ class LineChart extends Chart {
                  transform={`translate(${this.yAxisOffset}, 0)`}
                  scale={this.yScale} />
           {_.tail(this.props.cols).map((c, i) => (
-            <Line cols={this.props.cols}
-                  data={this.sliceData(c)}
+            <Line data={this.sliceData(c)}
                   i={i}
                   x={this.x.bind(this)}
                   y={this.y.bind(this)}
