@@ -41,6 +41,12 @@ class XAxis extends Axis {
         .classed('stroke--transparent', true);
 
     let ticks = axis.selectAll('.tick');
+
+    if (props.isBarChart) {
+      ticks.attr('transform', function(t) {
+        return `${this.getAttribute('transform')} translate(${props.yAxisOffset / 2}, 0)`;
+      });
+    }
     
     ticks.select('text')
          .attr('dy', '1rem')
@@ -54,6 +60,7 @@ class XAxis extends Axis {
 XAxis.propTypes = {
   className: React.PropTypes.string,
   innerHeight: React.PropTypes.number,
+  isBarChart: React.PropTypes.bool,
   margin: React.PropTypes.number,
   scale: React.PropTypes.func,
   transform: React.PropTypes.string

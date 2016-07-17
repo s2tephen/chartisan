@@ -2,7 +2,6 @@
 
 import React from 'react';
 import * as d3 from 'd3';
-import _ from 'lodash';
 
 import Chart from './Chart.js';
 import {XAxis, YAxis} from './Axis.js';
@@ -18,10 +17,6 @@ class LineChart extends Chart {
       return this.xScale(d[this.props.cols[0]]) + this.xScale.bandwidth() / 2;
     }
     return this.xScale(d[this.props.cols[0]]);
-  }
-
-  y(d, i) {
-    return this.yScale(d[this.props.cols[i + 1]]);
   }
 
   render() {

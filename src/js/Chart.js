@@ -85,8 +85,8 @@ class Chart extends React.Component {
     return this.xScale(d[this.props.cols[0]]);
   }
 
-  y(d) {
-    return this.yScale(d[this.props.cols[1]]);
+  y(d, i) {
+    return this.yScale(d[this.props.cols[i + 1]]);
   }
 
   sliceData(col) {

@@ -19,10 +19,6 @@ class ScatterChart extends Chart {
     return this.xScale(d[this.props.cols[0]]);
   }
 
-  y(d, i) {
-    return this.yScale(d[this.props.cols[i + 1]]);
-  }
-
   render() {
     return (
       <svg className="fl"

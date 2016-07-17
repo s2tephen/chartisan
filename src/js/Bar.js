@@ -9,20 +9,23 @@ class Bar extends React.Component {
 
   render() {
     return (
-      <rect className="bar"
+      <rect className={`bar fill--${this.props.color}`}
+            width={this.props.width}
+            height={this.props.height}
             x={this.props.x}
             y={this.props.y}
-            width={this.props.width}
-            height={this.props.height} />
+            transform={this.props.transform} />
     );
   }
 }
 
 Bar.propTypes = {
-  x: React.PropTypes.number,
+  color: React.PropTypes.string,
+  height: React.PropTypes.number,
+  transform: React.PropTypes.string,
   width: React.PropTypes.number,
-  y: React.PropTypes.number,
-  height: React.PropTypes.number
+  x: React.PropTypes.number,
+  y: React.PropTypes.number
 };
 
 export default Bar;

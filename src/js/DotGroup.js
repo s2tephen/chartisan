@@ -11,7 +11,7 @@ class DotGroup extends React.Component {
 
   render() {
     return (
-      <g>
+      <g className="series">
         {this.props.data.map((d, j) => (
           <Dot cx={this.props.x(d)}
                cy={this.props.y(d, this.props.i)}
