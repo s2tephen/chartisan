@@ -45,7 +45,6 @@ class BarChart extends Chart {
                  margin={this.props.margin.right / 2}
                  yAxisOffset={this.yAxisOffset}
                  transform={`translate(0, ${this.innerHeight})`}
-                 isBarChart={true}
                  scale={this.xScale} />
           <YAxis className="y"
                  innerWidth={this.innerWidth - this.yAxisOffset}

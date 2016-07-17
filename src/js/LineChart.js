@@ -37,6 +37,7 @@ class LineChart extends Chart {
           <XAxis className="x"
                  innerHeight={this.innerHeight}
                  margin={this.props.margin.right}
+                 yAxisOffset={this.yAxisOffset}
                  transform={`translate(0, ${this.innerHeight + this.props.margin.right})`}
                  scale={this.xScale} />
           <YAxis className="y"
@@ -49,6 +50,7 @@ class LineChart extends Chart {
                   i={i}
                   x={this.x.bind(this)}
                   y={this.y.bind(this)}
+                  transform={`translate(${this.yAxisOffset / 2}, 0)`}
                   color={this.colors[i]}
                   key={`line-${i}`} />
           ))}

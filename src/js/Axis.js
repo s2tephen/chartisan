@@ -40,13 +40,10 @@ class XAxis extends Axis {
     axis.select('.domain')
         .classed('stroke--transparent', true);
 
-    let ticks = axis.selectAll('.tick');
-
-    if (props.isBarChart) {
-      ticks.attr('transform', function(t) {
-        return `${this.getAttribute('transform')} translate(${props.yAxisOffset / 2}, 0)`;
-      });
-    }
+    let ticks = axis.selectAll('.tick')
+                    .attr('transform', function(t) {
+                      return `${this.getAttribute('transform')} translate(${props.yAxisOffset / 2}, 0)`;
+                    });
     
     ticks.select('text')
          .attr('dy', '1rem')

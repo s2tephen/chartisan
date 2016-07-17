@@ -31,7 +31,8 @@ class Line extends React.Component {
 
   render() {
     return (
-      <path className={`line stroke--${this.props.color}`} />
+      <path className={`line stroke--${this.props.color}`}
+            transform={this.props.transform} />
     );
   }
 }
@@ -40,6 +41,7 @@ Line.propTypes = {
   color: React.PropTypes.string,
   data: React.PropTypes.array,
   i: React.PropTypes.number,
+  transform: React.PropTypes.string,
   x: React.PropTypes.func,
   y: React.PropTypes.func
 };
