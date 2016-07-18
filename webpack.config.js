@@ -1,5 +1,7 @@
 var webpack = require('webpack');
-// var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+
+var NODE_ENV = process.env.NODE_ENV || 'development';
 
 module.exports = {
   entry: './src/app.js',
@@ -23,8 +25,8 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        // loader: ExtractTextPlugin.extract('style-loader', 'css-loader?{"minimize":true}!postcss-loader')
-        loader: 'style-loader!css-loader?{"minimize":true}!postcss-loader'
+        loader: NODE_ENV === 'production' ? ExtractTextPlugin.extract('style-loader', 'css-loader?{"minimize":true}!postcss-loader')
+                                          : 'style-loader!css-loader?{"minimize":true}!postcss-loader'
       }
     ]
   },
@@ -37,7 +39,17 @@ module.exports = {
       require('autoprefixer')
     ];
   },
-  // plugins: [
-  //   new ExtractTextPlugin('[name].css')
-  // ]
+  plugins: NODE_ENV === 'production' ? [
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify(NODE_ENV)
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    }),
+    new ExtractTextPlugin('[name].css')
+  ] : []
 };

@@ -1,8 +1,9 @@
 {
   "name": "chartisan",
-  "version": "0.1.0",
+  "version": "0.5.0",
   "scripts": {
-    "start": "webpack-dev-server --hot --inline"
+    "start": "webpack-dev-server --hot --inline",
+    "dist": "NODE_ENV=production webpack -p"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.6",
