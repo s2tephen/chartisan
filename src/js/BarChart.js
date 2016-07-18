@@ -7,6 +7,7 @@ import Chart from './Chart.js';
 import {XAxis, YAxis} from './Axis.js';
 import BarGroup from './BarGroup.js';
 import Header from './Header.js';
+import Legend from './Legend.js';
 import Footer from './Footer.js';
 
 class BarChart extends Chart {
@@ -16,7 +17,7 @@ class BarChart extends Chart {
                              .domain(props.data.map(d => d[props.cols[0]]));
 
     this.xGroupScale = scaleBand().rangeRound([0, this.xScale.bandwidth()])
-                                  .domain(_.tail(props.cols));
+                                  .domain(props.cols.slice(1));
   }
 
   x(d, i) {
@@ -36,6 +37,12 @@ class BarChart extends Chart {
                   title={this.props.title}
                   subtitle={this.props.subtitle} />
         }
+        {this.props.cols.length > 2 &&
+          <Legend cols={this.props.cols.slice(1)}
+                  colors={this.colors}
+                  size={this.props.margin.right / 2}
+                  transform={`translate(${this.props.margin.right}, ${this.props.margin.top - this.props.margin.left})`} />
+        }
         <g className="chart"
            transform={`translate(${this.props.margin.left}, ${this.props.margin.top})`}>
           <XAxis className="x"
@@ -48,7 +55,7 @@ class BarChart extends Chart {
                  innerWidth={this.innerWidth - this.yAxisOffset}
                  transform={`translate(${this.yAxisOffset}, 0)`}
                  scale={this.yScale} />
-          {_.tail(this.props.cols).map((c, i) => (
+          {this.props.cols.slice(1).map((c, i) => (
             <BarGroup cols={this.props.cols}
                       data={this.sliceData(c)}
                       i={i}

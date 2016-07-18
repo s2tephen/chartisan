@@ -6,6 +6,7 @@ import Chart from './Chart.js';
 import {XAxis, YAxis} from './Axis.js';
 import DotGroup from './DotGroup.js';
 import Header from './Header.js';
+import Legend from './Legend.js';
 import Footer from './Footer.js';
 
 class ScatterChart extends Chart {
@@ -31,6 +32,12 @@ class ScatterChart extends Chart {
                   title={this.props.title}
                   subtitle={this.props.subtitle} />
         }
+        {this.props.cols.length > 2 &&
+          <Legend cols={this.props.cols.slice(1)}
+                  colors={this.colors}
+                  size={this.props.margin.right / 2}
+                  transform={`translate(${this.props.margin.right}, ${this.props.margin.top - this.props.margin.left})`} />
+        }
         <g className="chart"
            transform={`translate(${this.props.margin.left}, ${this.props.margin.top})`}>
           <XAxis className="x"
@@ -43,7 +50,7 @@ class ScatterChart extends Chart {
                  innerWidth={this.innerWidth - this.yAxisOffset}
                  transform={`translate(${this.yAxisOffset}, 0)`}
                  scale={this.yScale} />
-          {_.tail(this.props.cols).map((c, i) => (
+          {this.props.cols.slice(1).map((c, i) => (
             <DotGroup data={this.sliceData(c)}
                       i={i}
                       x={this.x.bind(this)}

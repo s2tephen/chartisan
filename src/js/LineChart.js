@@ -6,6 +6,7 @@ import Chart from './Chart.js';
 import {XAxis, YAxis} from './Axis.js';
 import Line from './Line.js';
 import Header from './Header.js';
+import Legend from './Legend.js';
 import Footer from './Footer.js';
 
 class LineChart extends Chart {
@@ -27,9 +28,15 @@ class LineChart extends Chart {
               height={this.props.height}
               fill="rgb(244,244,244)" />
         {(this.props.title || this.props.subtitle) &&
-          <Header transform={`translate(${this.props.margin.right}, ${this.props.margin.left})`}
-                  title={this.props.title}
-                  subtitle={this.props.subtitle} />
+          <Header title={this.props.title}
+                  subtitle={this.props.subtitle}
+                  transform={`translate(${this.props.margin.right}, ${this.props.margin.left})`} />
+        }
+        {this.props.cols.length > 2 &&
+          <Legend cols={this.props.cols.slice(1)}
+                  colors={this.colors}
+                  size={this.props.margin.right / 2}
+                  transform={`translate(${this.props.margin.right}, ${this.props.margin.top - this.props.margin.left})`} />
         }
         <g className="chart"
            transform={`translate(${this.props.margin.left}, ${this.props.margin.top})`}>
@@ -44,7 +51,7 @@ class LineChart extends Chart {
                  margin={this.props.margin.right}
                  transform={`translate(${this.yAxisOffset}, 0)`}
                  scale={this.yScale} />
-          {_.tail(this.props.cols).map((c, i) => (
+          {this.props.cols.slice(1).map((c, i) => (
             <Line data={this.sliceData(c)}
                   i={i}
                   x={this.x.bind(this)}

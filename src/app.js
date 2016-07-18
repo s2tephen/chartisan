@@ -16,16 +16,16 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cols: ['year', 'imdb', 'rt'],
+      cols: ['Year', 'IMDb users', 'Rotten Tomatoes critics'],
       delimiter: ',',
       data: [
-        {'year': 1977, 'imdb': 87, 'rt': 93},
-        {'year': 1980, 'imdb': 88, 'rt': 94},
-        {'year': 1983, 'imdb': 84, 'rt': 80},
-        {'year': 1999, 'imdb': 76, 'rt': 55},
-        {'year': 2002, 'imdb': 67, 'rt': 65},
-        {'year': 2005, 'imdb': 76, 'rt': 79},
-        {'year': 2015, 'imdb': 82, 'rt': 92}
+        {'Year': 1977, 'IMDb users': 87, 'Rotten Tomatoes critics': 93},
+        {'Year': 1980, 'IMDb users': 88, 'Rotten Tomatoes critics': 94},
+        {'Year': 1983, 'IMDb users': 84, 'Rotten Tomatoes critics': 80},
+        {'Year': 1999, 'IMDb users': 76, 'Rotten Tomatoes critics': 55},
+        {'Year': 2002, 'IMDb users': 67, 'Rotten Tomatoes critics': 65},
+        {'Year': 2005, 'IMDb users': 76, 'Rotten Tomatoes critics': 79},
+        {'Year': 2015, 'IMDb users': 82, 'Rotten Tomatoes critics': 92}
       ],
       colType: 'time',
       chartType: 'line',
@@ -121,6 +121,7 @@ class App extends React.Component {
 
     if (this.state.title || this.state.subtitle) marginTop += 25;
     if (this.state.title && this.state.subtitle) marginTop += 25;
+    if (this.state.cols.length > 2) marginTop += 20;
 
     if (this.state.chartType !== 'bar') marginBottom += 20;
     if (this.state.credit || this.state.source) marginBottom += 40;
