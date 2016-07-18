@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import saveSvgAsPng from 'save-svg-as-png';
+import {saveSvgAsPng, svgAsDataUri} from 'save-svg-as-png';
 
 import RadioInput from './RadioInput.js';
 import TextInput from './TextInput.js';
@@ -13,7 +13,7 @@ class Form extends React.Component {
   }
 
   exportPng() {
-    saveSvgAsPng.saveSvgAsPng(
+    saveSvgAsPng(
       document.querySelector('svg'), this.getFilename('png'), {scale: 2.0}
     );
   }
@@ -21,7 +21,7 @@ class Form extends React.Component {
   exportSvg() {
     let self = this;
 
-    saveSvgAsPng.svgAsDataUri(document.querySelector('svg'), {}, function(uri) {
+    svgAsDataUri(document.querySelector('svg'), {}, function(uri) {
       let a = document.createElement('a');
       a.download = self.getFilename('svg');
       a.href = uri;

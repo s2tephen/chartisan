@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import * as d3 from 'd3';
 
 import Chart from './Chart.js';
 import {XAxis, YAxis} from './Axis.js';

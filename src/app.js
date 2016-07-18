@@ -4,8 +4,7 @@ import './index.html';
 import './css/style.css';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
-import * as d3 from 'd3';
+import {render} from 'react-dom';
 import moment from 'moment';
 
 import Form from './js/Form.js';
@@ -198,7 +197,7 @@ class App extends React.Component {
   }
 }
 
-ReactDOM.render(
+render(
   <App />,
   document.getElementById('app')
 );

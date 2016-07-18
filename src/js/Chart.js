@@ -1,8 +1,10 @@
 'use strict';
 
 import React from 'react';
-import * as d3 from 'd3';
-import _ from 'lodash';
+import {extent} from 'd3-array';
+import {timeYear} from 'd3-time';
+import {domain, nice, padding, scaleBand, scaleLinear, scaleTime} from 'd3-scale';
+import {isEqual, pick} from 'lodash';
 
 class Chart extends React.Component {
   constructor(props) {
@@ -18,7 +20,7 @@ class Chart extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    let dataDidChange = !_.isEqual(this.props.data, nextProps.data);
+    let dataDidChange = !isEqual(this.props.data, nextProps.data);
 
     this.innerWidth = nextProps.width - nextProps.margin.left - nextProps.margin.right;
     this.innerHeight = nextProps.height - nextProps.margin.top - nextProps.margin.bottom;
@@ -29,32 +31,28 @@ class Chart extends React.Component {
 
   setXScale(props, dataDidChange) {
     if (props.colType === 'ordinal') {
-      this.xScale = d3.scaleBand()
-                      .rangeRound([0, this.innerWidth])
-                      .padding(0.1)
-                      .domain(props.data.map(d => d[props.cols[0]]));
+      this.xScale = scaleBand().rangeRound([0, this.innerWidth])
+                               .padding(0.1)
+                               .domain(props.data.map(d => d[props.cols[0]]));
     } else if (props.colType === 'numeric') {
-      this.xScale = d3.scaleLinear()
-                      .rangeRound([props.margin.right, this.innerWidth - props.margin.right]);
+      this.xScale = scaleLinear().rangeRound([props.margin.right, this.innerWidth - props.margin.right]);
 
       if (dataDidChange || props.domain[0] === null) {
-        this.xScale.domain(d3.extent(props.data, d => d[props.cols[0]]))
+        this.xScale.domain(extent(props.data, d => d[props.cols[0]]))
                    .nice();
         props.handleExtentChange('domain', this.xScale.domain().map(x => x.toString()));
       } else {
         this.xScale.domain(props.domain);
       }
     } else {
-      this.xScale = d3.scaleTime()
-                      .rangeRound([props.margin.right, this.innerWidth - props.margin.right])
-                      .domain(d3.extent(props.data, d => d[props.cols[0]]).map(d => new Date(d.toString())))
-                      .nice(d3.timeYear, 5);
+      this.xScale = scaleTime().rangeRound([props.margin.right, this.innerWidth - props.margin.right])
+                               .domain(extent(props.data, d => d[props.cols[0]]).map(d => new Date(d.toString())))
+                               .nice(timeYear, 5);
     }
   }
 
   setYScale(props, dataDidChange) {
-    this.yScale = d3.scaleLinear()
-                    .rangeRound([this.innerHeight, 0]);
+    this.yScale = scaleLinear().rangeRound([this.innerHeight, 0]);
 
     if (dataDidChange || props.range[0] === null) {
       let yVals = [];
@@ -90,7 +88,7 @@ class Chart extends React.Component {
   }
 
   sliceData(col) {
-    return this.props.data.map(d => _.pick(d, [this.props.cols[0], col]));
+    return this.props.data.map(d => pick(d, [this.props.cols[0], col]));
   }
 }
 

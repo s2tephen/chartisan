@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import * as d3 from 'd3';
+import {domain, padding, rangeRound, scaleBand} from 'd3-scale';
 
 import Chart from './Chart.js';
 import {XAxis, YAxis} from './Axis.js';
@@ -11,14 +11,12 @@ import Footer from './Footer.js';
 
 class BarChart extends Chart {
   setXScale(props, dataDidChange) {
-    this.xScale = d3.scaleBand()
-                    .rangeRound([0, this.innerWidth])
-                    .padding(0.1)
-                    .domain(props.data.map(d => d[props.cols[0]]));
+    this.xScale = scaleBand().rangeRound([0, this.innerWidth])
+                             .padding(0.1)
+                             .domain(props.data.map(d => d[props.cols[0]]));
 
-    this.xGroupScale = d3.scaleBand()
-                         .rangeRound([0, this.xScale.bandwidth()])
-                         .domain(_.tail(props.cols));
+    this.xGroupScale = scaleBand().rangeRound([0, this.xScale.bandwidth()])
+                                  .domain(_.tail(props.cols));
   }
 
   x(d, i) {

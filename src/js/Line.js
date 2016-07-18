@@ -1,32 +1,29 @@
 'use strict';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
-import * as d3 from 'd3';
+import {findDOMNode} from 'react-dom';
+import {attr, datum, select} from 'd3-selection';
+import {line, x, y} from 'd3-shape';
 
 class Line extends React.Component {
   constructor(props) {
     super(props);
 
-    this.line = d3.line()
-                  .x(d => props.x(d))
-                  .y(d => props.y(d, props.i));
+    this.line = line().x(d => props.x(d))
+                      .y(d => props.y(d, props.i));
   }
 
   componentDidMount() {
-    d3.select(ReactDOM.findDOMNode(this))
-      .datum(this.props.data)
-      .attr('d', this.line);
+    select(findDOMNode(this)).datum(this.props.data)
+                             .attr('d', this.line);
   }
 
   componentWillReceiveProps(nextProps) {
-    this.line = d3.line()
-                  .x(d => nextProps.x(d))
-                  .y(d => nextProps.y(d, nextProps.i));
+    this.line = line().x(d => nextProps.x(d))
+                      .y(d => nextProps.y(d, nextProps.i));
 
-    d3.select(ReactDOM.findDOMNode(this))
-      .datum(nextProps.data)
-      .attr('d', this.line);
+    select(findDOMNode(this)).datum(nextProps.data)
+                             .attr('d', this.line);
   }
 
   render() {

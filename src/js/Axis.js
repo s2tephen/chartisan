@@ -1,8 +1,9 @@
 'use strict';
 
 import React from 'react';
-import ReactDOM from 'react-dom';
-import * as d3 from 'd3';
+import {findDOMNode} from 'react-dom';
+import {axisBottom, axisLeft, ticks, tickSizeInner} from 'd3-axis';
+import {attr, call, classed, select, selectAll} from 'd3-selection';
 
 class Axis extends React.Component {
   constructor(props) {
@@ -31,11 +32,9 @@ class XAxis extends Axis {
   }
 
   updateAxis(props) {
-    this.axis = d3.axisBottom(props.scale)
-                  .tickSizeInner(-props.innerHeight - 2 * props.margin);
+    this.axis = axisBottom(props.scale).tickSizeInner(-props.innerHeight - 2 * props.margin);
 
-    let axis = d3.select(ReactDOM.findDOMNode(this))
-                 .call(this.axis);
+    let axis = select(findDOMNode(this)).call(this.axis);
 
     axis.select('.domain')
         .classed('stroke--transparent', true);
@@ -77,12 +76,9 @@ class YAxis extends Axis {
   }
 
   updateAxis(props) {
-    this.axis = d3.axisLeft(props.scale)
-                  .ticks(5, ',f')
-                  .tickSizeInner(-props.innerWidth);
+    this.axis = axisLeft(props.scale).ticks(5, ',f').tickSizeInner(-props.innerWidth);
 
-    let axis = d3.select(ReactDOM.findDOMNode(this))
-                 .call(this.axis);
+    let axis = select(findDOMNode(this)).call(this.axis);
 
     axis.select('.domain')
         .classed('stroke--transparent', true);
