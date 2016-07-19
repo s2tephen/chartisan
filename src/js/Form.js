@@ -74,6 +74,7 @@ class Form extends React.Component {
                      value2={this.props.yMax}
                      onChange={this.props.handlePropChange}
                      onClick={this.props.handleExtentChange} />
+        <hr className="mv3 bt bb0 b--black-10" />
         <TextInput field="title"
                    value={this.props.title}
                    maxLength="50"
@@ -90,7 +91,7 @@ class Form extends React.Component {
                    value={this.props.source}
                    maxLength="30"
                    onChange={this.props.handlePropChange} />
-        <div className="form-export dt w-100 mt2">
+        <div className="form-export dt w-100 mt2 mb4">
           <h2 className="dtc w-20 f6 fw7 ttu tracked v-mid">Export</h2>
           <fieldset className="dtc w-100 h2 pa0 ma0 bn">
             <button className="form-button b-box w-50 h2 pa1 ba b--black-20 bg-near-white bg-hover--black-20 outline-0 pointer"

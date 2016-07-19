@@ -17,7 +17,6 @@ class Legend extends React.Component {
           <LegendItem name={c}
                       color={this.props.colors[i]}
                       size={this.props.size}
-                      i={i}
                       key={`legendItem-${i}`} />
         ))}
       </g>

@@ -46,7 +46,6 @@ class LegendItem extends React.Component {
 
 LegendItem.propTypes = {
   color: React.PropTypes.string,
-  i: React.PropTypes.number,
   name: React.PropTypes.string,
   size: React.PropTypes.number
 };

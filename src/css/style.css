@@ -40,6 +40,14 @@
   font-family: source code pro,monospace;
 }
 
+.bb0 {
+  border-bottom: 0;
+}
+
+.dt-footer-group {
+  display: table-footer-group;
+}
+
 .b-box {
   box-sizing: border-box;
 }
@@ -98,6 +106,11 @@ button.form-extent,
   fill: none;
   stroke-width: 3px;
 }
+
+.blue   { color: var(--blue) }
+.green  { color: var(--green) }
+.orange { color: var(--orange) }
+.purple { color: var(--purple) } 
 
 .fill--blue   { fill: var(--blue) }
 .fill--green  { fill: var(--green) }

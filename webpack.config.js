@@ -21,12 +21,16 @@ module.exports = {
       },
       {
         test: /\.html$/,
-        loader: 'file?name=[name].[ext]',
+        loader: 'file?name=[name].[ext]'
       },
       {
         test: /\.css$/,
         loader: NODE_ENV === 'production' ? ExtractTextPlugin.extract('style-loader', 'css-loader?{"minimize":true}!postcss-loader')
                                           : 'style-loader!css-loader?{"minimize":true}!postcss-loader'
+      },
+      {
+        test: /\.(png|ico)$/,
+        loader: 'file?name=[name].[ext]'
       }
     ]
   },

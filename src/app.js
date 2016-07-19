@@ -2,6 +2,8 @@
 
 import './index.html';
 import './css/style.css';
+import './img/logo.png';
+import './img/favicon.ico';
 
 import React from 'react';
 import {render} from 'react-dom';
