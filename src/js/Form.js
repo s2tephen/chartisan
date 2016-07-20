@@ -43,7 +43,7 @@ class Form extends React.Component {
     return (
       <div className="form">
         <h2 className="mt0 f6 fw7 ttu tracked">Data (CSV or TSV)</h2>
-        <textarea className="form-data w-100 pa1 h4 f5 f6-ns monospace b--black-20 b-focus--black-50 no-resize"
+        <textarea className="form-data w-100 pa1 h4 f5 f6-ns monospace b--black-20 b-focus--black-50 outline-0 no-resize"
                   defaultValue={'Year,IMDb users,Rotten Tomatoes critics\n1977,87,93\n1980,88,94\n1983,84,80\n1999,76,55\n2002,67,65\n2005,76,79\n2015,82,92'}
                   onChange={this.props.handleDataChange.bind(this)} />
         <RadioInput field="chartType"

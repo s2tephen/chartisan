@@ -29,8 +29,16 @@ module.exports = {
                                           : 'style-loader!css-loader?{"minimize":true}!postcss-loader'
       },
       {
-        test: /\.(png|ico)$/,
+        test: /\.ico$/,
         loader: 'file?name=[name].[ext]'
+      },
+      {
+        test: /\.png$/,
+        loader: 'file?name=img/[name].[ext]'
+      },
+      {
+        test: /\.woff2?$/,
+        loader: 'file?name=fonts/[name].[ext]'
       }
     ]
   },

@@ -23,14 +23,16 @@ class LineChart extends Chart {
     return (
       <svg className="fl"
            width={this.props.width}
-           height={this.props.height}>
+           height={this.props.height}
+           xmlns="http://www.w3.org/2000/svg"
+           version="1.1">
         <rect width={this.props.width}
               height={this.props.height}
               fill="rgb(244,244,244)" />
         {(this.props.title || this.props.subtitle) &&
-          <Header title={this.props.title}
-                  subtitle={this.props.subtitle}
-                  transform={`translate(${this.props.margin.right}, ${this.props.margin.left})`} />
+          <Header transform={`translate(${this.props.margin.right}, ${this.props.margin.left})`}
+                  title={this.props.title}
+                  subtitle={this.props.subtitle} />
         }
         {this.props.cols.length > 2 &&
           <Legend cols={this.props.cols.slice(1)}

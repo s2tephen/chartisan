@@ -45,7 +45,7 @@ class XAxis extends Axis {
                     });
     
     ticks.select('text')
-         .attr('dy', '1rem')
+         .attr('dy', '1.25em')
          .classed('f6 sans-serif fill--black-30', true);
 
     ticks.select('line')
@@ -86,7 +86,7 @@ class YAxis extends Axis {
     let ticks = axis.selectAll('.tick');
     
     ticks.select('text')
-         .attr('dx', '-.25rem')
+         .attr('dx', '-.5em')
          .classed('f6 sans-serif fill--black-30', true);
 
     if (props.scale.domain()[0] < 0 && props.scale.domain()[1] > 0) {

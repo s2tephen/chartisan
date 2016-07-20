@@ -2,8 +2,14 @@
 
 import './index.html';
 import './css/style.css';
+
 import './img/logo.png';
 import './img/favicon.ico';
+
+import './fonts/karla-bold.woff2';
+import './fonts/karla-italic.woff2';
+import './fonts/karla-regular.woff2';
+import './fonts/sourcecodepro-regular.woff2';
 
 import React from 'react';
 import {render} from 'react-dom';
@@ -130,7 +136,7 @@ class App extends React.Component {
 
     return (
       <div>
-        <div className="w-100 w-50-ns pr3 pr5-ns fl">
+        <div className="w-100 w-50-l pr0 pr5-l fl">
           <Form chartType={this.state.chartType}
                 colType={this.state.colType}
                 cols={this.state.cols}
@@ -146,7 +152,7 @@ class App extends React.Component {
                 handlePropChange={this.handlePropChange.bind(this)}
                 handleExtentChange={this.handleExtentChange.bind(this)} />
         </div>
-        <div className="w-100 w-50-ns fr">
+        <div className="w-100 w-50-l fr">
           <h2 className="mt0 f6 fw7 ttu tracked">Preview</h2>
           {this.state.chartType === 'bar' &&
             <BarChart width={640}

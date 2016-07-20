@@ -36,7 +36,7 @@ class LegendItem extends React.Component {
               height={this.props.size} />
         <text className={`f6 sans-serif fill--${this.props.color}`}
               dx={this.props.size * 1.5}
-              dy="0.6rem">
+              dy={this.props.size}>
           {this.props.name}
         </text>
       </g>

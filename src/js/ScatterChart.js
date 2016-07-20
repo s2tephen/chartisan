@@ -23,7 +23,9 @@ class ScatterChart extends Chart {
     return (
       <svg className="fl"
            width={this.props.width}
-           height={this.props.height}>
+           height={this.props.height}
+           xmlns="http://www.w3.org/2000/svg"
+           version="1.1">
         <rect width={this.props.width}
               height={this.props.height}
               fill="rgb(244,244,244)" />

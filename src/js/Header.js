@@ -18,7 +18,7 @@ class Header extends React.Component {
         }
         {this.props.subtitle &&
           <text className="f4 sans-serif fw4 i fill--black-50"
-                y={this.props.title ? '1.5rem' : null}>
+                y={this.props.title ? '1.25em' : null}>
             {this.props.subtitle}
           </text>
         }
