@@ -10,8 +10,8 @@ What started out as a humble weekend hack project to learn [Webpack](https://git
 #### Changelog
 * **0.6 (07/20/16)** — Fixed SVG positioning bug and added custom fonts to exported charts. 
 * **0.5 (07/18/16)** — Now supports multiple series across all chart types, with a legend.
-* **0.4 (07/14/16)** — Temporarily removed non-ordinal bar charts, fixed y-axis digit bug, added SVG/PNG exporting.
-* **0.3 (07/07/16)** — Added basic time axis support (year only for now) and first pass at numeric bar charts, implemented customizable domain/range values.
+* **0.4 (07/14/16)** — Fixed y-axis digit bug and added SVG/PNG exporting.
+* **0.3 (07/07/16)** — Added time axis support for years and customizable domain/range values.
 * **0.2 (06/18/16)** — Added chart/axis switching, implemented line charts and scatterplots.
 * **0.1 (06/14/16)** — First commit, MVP: Reactive D3 ordinal/numeric bar charts with some basic validation.
 
