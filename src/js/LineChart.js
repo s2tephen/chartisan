@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import moment from 'moment';
 
 import Chart from './Chart.js';
 import {XAxis, YAxis} from './Axis.js';
@@ -12,7 +13,7 @@ import Footer from './Footer.js';
 class LineChart extends Chart {
   x(d) {
     if (this.props.colType === 'time') {
-      return this.xScale(new Date(d[this.props.cols[0]].toString()));
+      return this.xScale(moment(d[this.props.cols[0]], this.timeFormats[this.props.timeFormat], true));
     } else if (this.props.colType === 'ordinal') {
       return this.xScale(d[this.props.cols[0]]) + this.xScale.bandwidth() / 2;
     }
@@ -47,7 +48,9 @@ class LineChart extends Chart {
                  margin={this.props.margin.right}
                  yAxisOffset={this.yAxisOffset}
                  transform={`translate(0, ${this.innerHeight + this.props.margin.right})`}
-                 scale={this.xScale} />
+                 scale={this.xScale}
+                 colType={this.props.colType} 
+                 timeOrder={this.timeOrder} />
           <YAxis className="y"
                  innerWidth={this.innerWidth - this.yAxisOffset}
                  margin={this.props.margin.right}

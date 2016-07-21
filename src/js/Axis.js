@@ -4,6 +4,8 @@ import React from 'react';
 import {findDOMNode} from 'react-dom';
 import {axisBottom, axisLeft, ticks, tickSizeInner} from 'd3-axis';
 import {attr, call, classed, select, selectAll} from 'd3-selection';
+import {timeMonth, timeYear} from 'd3-time';
+import {timeFormat} from 'd3-time-format';
 
 class Axis extends React.Component {
   constructor(props) {
@@ -34,6 +36,16 @@ class XAxis extends Axis {
   updateAxis(props) {
     this.axis = axisBottom(props.scale).tickSizeInner(-props.innerHeight - 2 * props.margin);
 
+    if (props.colType === 'time') {
+      if (props.timeOrder === 'monthYears') {
+        this.axis.tickFormat(timeFormat('%b \'%y'));
+      } else if (props.timeOrder === 'months') {
+        this.axis.tickFormat(timeFormat('%b'));
+      } else if (props.timeOrder === 'weeks' || props.timeOrder === 'days') {
+        this.axis.tickFormat(timeFormat('%b %-d'));
+      }
+    }
+
     let axis = select(findDOMNode(this)).call(this.axis);
 
     axis.select('.domain')
@@ -55,10 +67,11 @@ class XAxis extends Axis {
 
 XAxis.propTypes = {
   className: React.PropTypes.string,
+  colType: React.PropTypes.string,
   innerHeight: React.PropTypes.number,
-  isBarChart: React.PropTypes.bool,
   margin: React.PropTypes.number,
   scale: React.PropTypes.func,
+  timeOrder: React.PropTypes.string,
   transform: React.PropTypes.string
 };
 

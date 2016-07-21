@@ -2,9 +2,10 @@
 
 import React from 'react';
 import {extent} from 'd3-array';
-import {timeYear} from 'd3-time';
+import {timeDay, timeHour, timeMonth, timeWeek, timeYear} from 'd3-time';
 import {domain, nice, padding, scaleBand, scaleLinear, scaleTime} from 'd3-scale';
 import {isEqual, pick} from 'lodash';
+import moment from 'moment';
 
 class Chart extends React.Component {
   constructor(props) {
@@ -13,10 +14,15 @@ class Chart extends React.Component {
     this.innerWidth = props.width - props.margin.left - props.margin.right;
     this.innerHeight = props.height - props.margin.top - props.margin.bottom;
 
+    this.colors = ['purple', 'blue', 'orange', 'green'];
+    this.timeFormats = {
+      date: ['MM/DD/YY', 'MM-DD-YY', 'MM/DD/YYYY', 'MM-DD-YYYY', 'YYYY/MM/DD', 'YYYY-MM-DD'],
+      time: ['H:mm', 'HH:mm', 'h:mma', 'h:mm a', 'h:mmA', 'h:mm A', 'hh:mma', 'hh:mm a', 'hh:mmA', 'hh:mm A'],
+      year: 'YYYY'
+    };
+
     this.setXScale(props, false);
     this.setYScale(props, false);
-
-    this.colors = ['purple', 'blue', 'orange', 'green'];
   }
 
   componentWillReceiveProps(nextProps) {
@@ -45,9 +51,38 @@ class Chart extends React.Component {
         this.xScale.domain(props.domain);
       }
     } else {
+      let xVals = props.data.map(d => moment(d[props.cols[0]], this.timeFormats[props.timeFormat], true))
+                            .sort((a, b) => a.diff(b));
+      let extent = [xVals[0], xVals[xVals.length - 1]];
+
       this.xScale = scaleTime().rangeRound([props.margin.right, this.innerWidth - props.margin.right])
-                               .domain(extent(props.data, d => d[props.cols[0]]).map(d => new Date(d.toString())))
-                               .nice(timeYear, 5);
+                               .domain(extent);
+      this.setTimeOrder(props.timeFormat, extent[0], extent[1]);
+    }
+  }
+
+  setTimeOrder(format, start, end) {
+    if (format === 'time') {
+      this.timeOrder = 'day';
+      this.xScale.nice(timeHour, 1);
+    } else if (end.diff(start, 'years') >= 10) {
+      this.timeOrder = 'years';
+      this.xScale.nice(timeYear, 5);
+    } else if (end.diff(start, 'years') >= 5) {
+      this.timeOrder = 'years';
+      this.xScale.nice(timeYear, 1);
+    } else if (end.diff(start, 'years') >= 1) {
+      this.timeOrder = 'monthYears';
+      this.xScale.nice(timeMonth, 1);
+    } else if (end.diff(start, 'months') > 3) {
+      this.timeOrder = 'months';
+      this.xScale.nice(timeMonth, 1);
+    } else if (end.diff(start, 'weeks') >= 4) {
+      this.timeOrder = 'weeks';
+      this.xScale.nice(timeWeek, 2);
+    } else if (end.diff(start, 'weeks') < 2) {
+      this.timeOrder = 'days';
+      this.xScale.nice(timeDay, 1);
     }
   }
 
@@ -102,6 +137,7 @@ Chart.propTypes = {
   range: React.PropTypes.array,
   source: React.PropTypes.string,
   subtitle: React.PropTypes.string,
+  timeFormat: React.PropTypes.string,
   title: React.PropTypes.string,
   width: React.PropTypes.number,
   height: React.PropTypes.number,

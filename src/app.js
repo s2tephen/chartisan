@@ -27,15 +27,16 @@ class App extends React.Component {
       cols: ['Year', 'IMDb users', 'Rotten Tomatoes critics'],
       delimiter: ',',
       data: [
-        {'Year': 1977, 'IMDb users': 87, 'Rotten Tomatoes critics': 93},
-        {'Year': 1980, 'IMDb users': 88, 'Rotten Tomatoes critics': 94},
-        {'Year': 1983, 'IMDb users': 84, 'Rotten Tomatoes critics': 80},
-        {'Year': 1999, 'IMDb users': 76, 'Rotten Tomatoes critics': 55},
-        {'Year': 2002, 'IMDb users': 67, 'Rotten Tomatoes critics': 65},
-        {'Year': 2005, 'IMDb users': 76, 'Rotten Tomatoes critics': 79},
-        {'Year': 2015, 'IMDb users': 82, 'Rotten Tomatoes critics': 92}
+        {'Year': '01/24/1977', 'IMDb users': 87, 'Rotten Tomatoes critics': 93},
+        {'Year': '01/24/1980', 'IMDb users': 88, 'Rotten Tomatoes critics': 94},
+        {'Year': '01/24/1983', 'IMDb users': 84, 'Rotten Tomatoes critics': 80},
+        {'Year': '01/24/1999', 'IMDb users': 76, 'Rotten Tomatoes critics': 55},
+        {'Year': '01/24/2002', 'IMDb users': 67, 'Rotten Tomatoes critics': 65},
+        {'Year': '01/24/2005', 'IMDb users': 76, 'Rotten Tomatoes critics': 79},
+        {'Year': '01/24/2015', 'IMDb users': 82, 'Rotten Tomatoes critics': 92}
       ],
       colType: 'time',
+      timeFormat: 'date',
       chartType: 'line',
       xMin: '1975',
       xMax: '2015',
@@ -46,13 +47,17 @@ class App extends React.Component {
       credit: 'stephensuen.com/chartisan',
       source: 'IMDb/Rotten Tomatoes'
     };
+
+    moment.createFromInputFallback = function(config) {
+      config._d = new Date(config._i);
+    };
   }
 
   handleDataChange(e) {
     let rows = e.target.value.split('\n');
     let delimiter = this.getDelimiter(rows);
     let cols = rows.shift().split(delimiter),
-        colType = this.getColType(rows);
+        colType = this.getColType(rows, delimiter);
 
     if (this.validateData(rows, cols, delimiter)) {    
       this.setState({
@@ -83,17 +88,21 @@ class App extends React.Component {
     }
   }
 
-  getColType(rows) {
-    if (rows.every(r => !isNaN(Number(r.split(',')[0])))) {
+  getColType(rows, delimiter) {
+    let xVals = rows.map(r => r.split(delimiter)[0]);
+
+    if (xVals.every(x => !isNaN(Number(x)))) {
       this.setState({colType: 'numeric'});
       return 'numeric';
-    } else if (rows.every(r => moment(r.split(',')[0]).isValid())) {
+    }
+
+    if (this.validateTime(xVals)) {
       this.setState({colType: 'time'});
       return 'time';
-    } else {
-      this.setState({colType: 'ordinal'});
-      return 'ordinal';
     }
+
+    this.setState({colType: 'ordinal'});
+    return 'ordinal';
   }
 
   getDelimiter(rows) {
@@ -123,6 +132,27 @@ class App extends React.Component {
     }
   }
 
+  validateTime(xVals) {
+    let timeFormats = [
+      {shortcode: 'date', tokens:
+        ['MM/DD/YY', 'MM-DD-YY', 'MM/DD/YYYY', 'MM-DD-YYYY', 'YYYY/MM/DD', 'YYYY-MM-DD']
+      },
+      {shortcode: 'time', tokens:
+        ['H:mm', 'HH:mm', 'h:mma', 'h:mm a', 'h:mmA', 'h:mm A', 'hh:mma', 'hh:mm a', 'hh:mmA', 'hh:mm A']
+      },
+      {shortcode: 'year', tokens: 'YYYY'}
+    ];
+
+    for (var tf of timeFormats) {
+      if (xVals.every(x => moment(x, tf.tokens, true).isValid())) {
+        this.setState({timeFormat: tf.shortcode});
+        return true;
+      }
+    }
+
+    throw new Error('Data contains invalid or inconsistent time data.\nAccepted formats: YYYY, HH:MM, MM/DD/YYYY, or YYYY/DD/MM.');
+  }
+
   render() {
     let marginTop = 50,
         marginBottom = 40;
@@ -140,6 +170,7 @@ class App extends React.Component {
           <Form chartType={this.state.chartType}
                 colType={this.state.colType}
                 cols={this.state.cols}
+                data={this.state.data}
                 xMin={this.state.xMin}
                 xMax={this.state.xMax}
                 yMin={this.state.yMin}
@@ -177,6 +208,7 @@ class App extends React.Component {
                        cols={this.state.cols}
                        data={this.state.data}
                        colType={this.state.colType}
+                       timeFormat={this.state.timeFormat}
                        domain={[this.state.xMin, this.state.xMax]}
                        range={[this.state.yMin, this.state.yMax]}
                        title={this.state.title}

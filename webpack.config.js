@@ -62,6 +62,7 @@ module.exports = {
         warnings: false
       }
     }),
+    new webpack.ContextReplacementPlugin(/moment[\\\/]locale$/, /^\.\/en$/),
     new ExtractTextPlugin('[name].css')
   ] : []
 };
