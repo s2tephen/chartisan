@@ -150,7 +150,7 @@ class App extends React.Component {
       }
     }
 
-    throw new Error('Data contains invalid or inconsistent time data.\nAccepted formats: YYYY, HH:MM, MM/DD/YYYY, or YYYY/DD/MM.');
+    return false;
   }
 
   render() {
